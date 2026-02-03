@@ -24,20 +24,35 @@
 }
 
 .links {
+  position: relative;
   display: flex;
-  gap: 12px;
+  gap: 6px; // tighter for pill feel
   flex-wrap: wrap;
   justify-content: flex-end;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
 }
 
 .link {
+  position: relative;
+  z-index: 2;
   color: $muted;
-  padding: 6px 8px;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
   border: 1px solid transparent;
+}
 
-  &:hover {
-    border-color: $border;
-    color: $text;
-  }
+.indicator {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  height: 43px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px 0px rgba(255, 255, 255, 0.25), 0 0 5px rgba(255, 255, 255, 0.45) inset;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, width;
+  transition: opacity 180ms ease;
+  opacity: 0;
 }

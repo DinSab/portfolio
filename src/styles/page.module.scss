@@ -1,5 +1,7 @@
 @use "@/styles/variables.scss" as *;
 
+:global(html) { scroll-behavior: smooth; }
+
 .page {
   min-height: 100vh;
 }
