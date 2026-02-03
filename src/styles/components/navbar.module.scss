@@ -1,0 +1,43 @@
+@use "@/styles/variables.scss" as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: rgba(11, 12, 16, 0.7);
+  border-bottom: 1px solid $border;
+}
+
+.nav {
+  margin: 0 auto;
+  max-width: $max;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  font-weight: 650;
+}
+
+.links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.link {
+  color: $muted;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+
+  &:hover {
+    border-color: $border;
+    color: $text;
+  }
+}

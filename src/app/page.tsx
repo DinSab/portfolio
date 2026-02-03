@@ -1,65 +1,96 @@
-import Image from "next/image";
+import styles from "@/styles/page.module.scss";
+import { portfolio } from "@/content/portfolio";
+import Navbar from "@/components/Navbar";
+import Section from "@/components/Section";
+import ProjectCard from "@/components/ProjectCard";
+import Footer from "@/components/Footer";
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className={styles.page}>
+      <Navbar />
+
+      <main className={styles.main}>
+        <Section id="home" title="Hi, ich bin">
+          <div className={styles.hero}>
+            <div>
+              <h1 className={styles.heroTitle}>
+                {portfolio.firstName}
+                <span className={styles.dot}>.</span>
+              </h1>
+              <p className={styles.heroRole}>{portfolio.role}</p>
+              <p className={styles.heroIntro}>{portfolio.intro}</p>
+
+              <div className={styles.heroActions}>
+                <a className={styles.primaryBtn} href="#projects">
+                  Projekte ansehen
+                </a>
+                <a className={styles.secondaryBtn} href="/cv.pdf" download>
+                  CV herunterladen
+                </a>
+              </div>
+            </div>
+
+            <div className={styles.heroCard}>
+              <p className={styles.heroCardTitle}>Kurzprofil</p>
+              <ul className={styles.heroList}>
+                <li>📍 {portfolio.location}</li>
+                <li>🧠 Fokus: UI/UX + saubere Architektur</li>
+                <li>⚙️ TypeScript / React / Next.js</li>
+              </ul>
+            </div>
+          </div>
+        </Section>
+
+        <Section id="about" title="About me">
+          <p className={styles.text}>{portfolio.about}</p>
+        </Section>
+
+        <Section id="skills" title="Skills">
+          <div className={styles.chips}>
+            {portfolio.skills.map((s) => (
+              <span key={s} className={styles.chip}>
+                {s}
+              </span>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="projects" title="Projects">
+          <div className={styles.grid}>
+            {portfolio.projects.map((p) => (
+              <ProjectCard key={p.title} project={p} />
+            ))}
+          </div>
+        </Section>
+
+        <Section id="contact" title="Contact">
+          <p className={styles.text}>
+            Schreib mir gern:{" "}
+            <a className={styles.link} href={`mailto:${portfolio.contact.email}`}>
+              {portfolio.contact.email}
+            </a>
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+          <div className={styles.links}>
+            <a className={styles.link} href={portfolio.contact.github} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a className={styles.link} href={portfolio.contact.linkedin} target="_blank" rel="noreferrer">
+              LinkedIn
+            </a>
+          </div>
+
+          <div className={styles.note}>
+            <p className={styles.noteTitle}>Chatbot (später)</p>
+            <p className={styles.noteText}>
+              Backend ist vorbereitet unter <code>/api/chat</code>. Frontend-Widget bauen wir dann als Bonus.
+            </p>
+          </div>
+        </Section>
       </main>
+
+      <Footer />
     </div>
   );
 }
