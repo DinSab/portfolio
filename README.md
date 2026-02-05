@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+
+# Portfolio
+
+Modern personal portfolio built with Next.js, TypeScript and SCSS. Clean UI, fast performance, and a simple content model to keep your projects and profile easy to update.
+
+</div>
+
+## Overview
+
+This app showcases skills, projects, and contact info with a responsive layout. Content lives in a single TypeScript file for quick edits, and styles use modular SCSS with a small variables layer. An API route (`/api/chat`) is scaffolded for a future chatbot integration.
+
+## Features
+
+- Responsive layout with `Navbar`, `Section`, `ProjectCard`, and `Footer` components
+- Centralized content config in `src/content/portfolio.ts`
+- SCSS modules with shared `variables.scss` and `mixins.scss`
+- App Router structure under `src/app` (Next.js 16)
+- Chat API stub at `/api/chat` ready for LLM integration
+- ESLint + TypeScript for quality and DX
+
+## Tech Stack
+
+- Next.js 16, React 19
+- TypeScript 5
+- SCSS (Sass)
+- Tailwind CSS 4 (postcss plugin included; optional)
+- ESLint 9
+
+## Project Structure
+
+```
+src/
+	app/
+		layout.tsx        # App shell (metadata, layout)
+		page.tsx          # Home page
+		api/
+			chat/route.ts   # POST /api/chat (stub)
+	components/         # UI components (Navbar, Footer, etc.)
+	content/
+		portfolio.ts      # Profile, skills, projects, contact
+	styles/
+		variables.scss    # Theme colors, spacing, typography
+		mixins.scss       # Common mixins
+		components/*.scss # Component-specific styles
+public/               # Static assets
+```
 
 ## Getting Started
 
-First, run the development server:
+Prerequisites: Node.js 18+ and npm.
+
+Install dependencies and start the dev server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` – start development server
+- `npm run build` – build for production
+- `npm run start` – run production build locally
+- `npm run lint` – run ESLint
 
-## Learn More
+## Content & Customization
 
-To learn more about Next.js, take a look at the following resources:
+Update your profile, skills, projects, and contact info in:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/content/portfolio.ts` – edit `firstName`, `role`, `location`, `intro`, `about`, `skills`, `projects`, `contact`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Adjust global theme and component styles:
 
-## Deploy on Vercel
+- `src/styles/variables.scss` – colors (`$bg`, `$text`), spacing, etc.
+- `src/styles/components/*.scss` – per-component styles
+- `src/app/globals.scss` – base resets and global styles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Tailwind v4 is available via PostCSS if you prefer utility classes. SCSS modules are the default in this project.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API: Chat Stub
+
+`POST /api/chat`
+
+- Request body: `{ "message": string }`
+- Response: `{ "reply": string }` (placeholder)
+
+Example:
+
+```bash
+curl -X POST http://localhost:3000/api/chat \
+	-H "Content-Type: application/json" \
+	-d '{"message":"Hallo!"}'
+```
+
+This is a stub meant to be replaced with an LLM integration (OpenAI, local, RAG, etc.).
+
+## Deployment
+
+Any Node-compatible host works. Typical options:
+
+- Vercel: zero-config Next.js deployments
+- Docker/VM: `npm run build` then `npm run start`
+
+Environment variables: none required yet. Add as you integrate services (e.g., for the chat route).
+
+## Roadmap Ideas
+
+- Replace chat stub with a real model
+- Add project screenshots and live links
+- Light/Dark theme toggle via CSS variables
+- Unit tests for components
+
+## License
+
+Personal portfolio project. Use and adapt for your own profile.
