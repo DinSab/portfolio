@@ -5,49 +5,84 @@
   top: 0;
   z-index: 50;
   backdrop-filter: blur(10px);
-  background: rgba(11, 12, 16, 0.7);
-  border-bottom: 1px solid $border;
+  background: rgba(11, 12, 16, 0.4);
+  align-items: center;
 }
 
 .nav {
-  margin: 0 auto;
+  margin: 15px auto;
   max-width: $max;
   padding: 12px 18px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.brand {
-  font-weight: 650;
+  justify-content: center;
 }
 
 .links {
   position: relative;
   display: flex;
-  gap: 6px; // tighter for pill feel
+  gap: 10px;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   padding: 6px;
   border-radius: 999px;
   background: rgba(255,255,255,0.04);
+  box-shadow: 0 0 5px 0px rgba(255, 255, 255, 0.25), 0 0 2px rgba(255, 255, 255, 0.45) inset;
+  overflow: visible; // allow labels to render below
 }
 
 .link {
   position: relative;
   z-index: 2;
   color: $muted;
-  padding: 10px 14px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
   border-radius: 999px;
   border: 1px solid transparent;
+
+  i {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: $border;
+    color: $text;
+    outline: none;
+  }
+}
+
+.linkLabel {
+  position: absolute;
+  left: 50%;
+  bottom: -22px; // renders under the icon
+  transform: translateX(-50%) translateY(6px);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255,255,255,0.10);
+  color: $text;
+  box-shadow: 0 0 2px rgba(255,255,255,0.35) inset;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.link:hover .linkLabel,
+.link:focus-visible .linkLabel {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .indicator {
   position: absolute;
   z-index: 1;
   left: 0;
-  height: 43px;
+  height: 44px; // match icon pill height
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 15px 0px rgba(255, 255, 255, 0.25), 0 0 5px rgba(255, 255, 255, 0.45) inset;

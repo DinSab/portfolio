@@ -16,7 +16,6 @@ export default function Page() {
             <div>
               <h1 className={styles.heroTitle}>
                 {portfolio.firstName}
-                <span className={styles.dot}>.</span>
               </h1>
               <p className={styles.heroRole}>{portfolio.role}</p>
               <p className={styles.heroIntro}>{portfolio.intro}</p>

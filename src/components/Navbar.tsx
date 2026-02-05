@@ -4,11 +4,11 @@ import { useEffect, useRef } from "react";
 import styles from "@/styles/components/navbar.module.scss";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: "#home", label: "Home", icon: "fa-solid fa-house" },
+  { href: "#about", label: "About", icon: "fa-solid fa-address-card" },
+  { href: "#skills", label: "Skills", icon: "fa-solid fa-code" },
+  { href: "#projects", label: "Projects", icon: "fa-solid fa-diagram-project" },
+  { href: "#contact", label: "Contact", icon: "fa-solid fa-envelope" },
 ];
 
 export default function Navbar() {
@@ -34,7 +34,7 @@ export default function Navbar() {
     const dpr = Math.max(1, window.devicePixelRatio || 1);
     const snap = (n: number) => Math.round(n * dpr) / dpr;
 
-    function stickySnap(t: number, dead = 0.55) {
+    function stickySnap(t: number, dead = 0.65) {
       t = clamp(t, 0, 1);
       if (t <= dead) {
         const u = t / dead;
@@ -47,8 +47,8 @@ export default function Navbar() {
 
     function animate() {
       if (!indicator) return;
-      const posFollow = 0.19;
-      const sizeFollow = 0.22;
+      const posFollow = 0.15;
+      const sizeFollow = 0.20;
 
       curX += (targetX - curX) * posFollow;
       curW += (targetW - curW) * sizeFollow;
@@ -64,7 +64,7 @@ export default function Navbar() {
     }
 
     function setIndicatorToItem(index: number) {
-      if (!indicator || !inner) return;
+      if (!inner || !indicator) return;
       const el = items[index];
       if (!el) return;
       const parentRect = inner.getBoundingClientRect();
@@ -78,7 +78,7 @@ export default function Navbar() {
     }
 
     function setIndicatorBetween(i: number, j: number, mix: number) {
-      if (!indicator || !inner) return;
+      if (!inner || !indicator) return;
       const pr = inner.getBoundingClientRect();
       const a = items[i]?.getBoundingClientRect();
       const b = items[j]?.getBoundingClientRect();
@@ -86,7 +86,6 @@ export default function Navbar() {
 
       const ax = a.left - pr.left;
       const bx = b.left - pr.left;
-
       const aw = a.width;
       const bw = b.width;
 
@@ -100,7 +99,7 @@ export default function Navbar() {
     function getScrollProgress() {
       const y = window.scrollY;
       const vh = window.innerHeight;
-      const ref = y + vh * 0.33;
+      const ref = y + vh * 0.25;
 
       let idx = 0;
       for (let i = 0; i < sections.length; i++) {
@@ -128,7 +127,6 @@ export default function Navbar() {
       });
     }
 
-    // click -> smooth scroll
     items.forEach((a, i) => {
       a.addEventListener("click", (e) => {
         e.preventDefault();
@@ -142,7 +140,6 @@ export default function Navbar() {
     window.addEventListener("scroll", onScrollThrottled, { passive: true });
     window.addEventListener("resize", onScrollThrottled);
 
-    // initial
     requestAnimationFrame(() => {
       onScrollThrottled();
       curX = targetX;
@@ -163,8 +160,6 @@ export default function Navbar() {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <a className={styles.brand} href="#home">Portfolio</a>
-
         <div className={styles.links} ref={innerRef}>
           {links.map((l) => (
             <a
@@ -172,8 +167,10 @@ export default function Navbar() {
               className={styles.link}
               href={l.href}
               data-target={l.href.replace("#", "")}
+              aria-label={l.label}
             >
-              {l.label}
+              <i className={l.icon} aria-hidden="true" />
+              <span className={styles.linkLabel}>{l.label}</span>
             </a>
           ))}
           <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
