@@ -39,5 +39,6 @@ export const portfolio = {
     email: "sabicdin@gmail.com", 
     github: "https://github.com/DinSab",
     linkedin: "https://www.linkedin.com/in/din-sabic/",
+    instagram: "https://www.instagram.com/din.sg05/",
   },
 };

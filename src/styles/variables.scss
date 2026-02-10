@@ -2,8 +2,11 @@ $bg: #0b0c10;
 $text: #ffffff;
 $muted: rgba(255, 255, 255, 0.8);
 
-$card: rgba(255, 255, 255, 0.06);
+$card: rgba(255,255,255,0.04);
 $border: rgba(255, 255, 255, 0.12);
+
+$box-shadow: 0 0 15px 0px rgba(255, 255, 255, 0.25), 0 0 5px rgba(255, 255, 255, 0.45) inset;
+
 
 $max: 980px;
 $radius: 16px;
