@@ -8,6 +8,7 @@
 
 .macbg {
   position: fixed;
+  content: "";
   inset: 0;
   z-index: -999;
   background: radial-gradient(1200px 700px at 20% 30%, rgba(255,120,150,.55), transparent 60%),
@@ -15,7 +16,7 @@
               radial-gradient(1000px 800px at 50% 85%, rgba(120,255,200,.45), transparent 60%),
               linear-gradient(120deg, #0b1020, #0a0f1a);
 
-  ::before, ::after {
+  &::before, &::after {
     position:absolute;
     inset:-20%;
     background:
@@ -24,7 +25,7 @@
       radial-gradient(closest-side, rgba( 90,255,200, .28), transparent 72%) 55% 90% / 60% 60% no-repeat;
     filter: blur(30px) saturate(120%);
     transform: translate3d(0,0,0) scale(1.02);
-    animation: 18s ease-in-out infinite alternate;
+    animation: macFloat 18s ease-in-out infinite alternate;
     will-change: transform;
 
   }
@@ -44,7 +45,7 @@
 
   /* Respektiert “Reduce Motion” */
   @media (prefers-reduced-motion: reduce){
-    .mac-bg::before, .mac-bg::after{ animation: none; }
+    &::before, &::after{ animation: none; }
   }
 }
 

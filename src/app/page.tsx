@@ -35,7 +35,7 @@ export default function Page() {
 
         </MeSection>
 
-        <Chat id="contact" title="Ask me anything!">
+        <Chat id="chat" title="Ask me anything!">
 
           <div className={styles.note}>
             <p className={styles.noteTitle}>Chatbot (später)</p>
