@@ -5,6 +5,7 @@ import styles from "@/styles/components/navbar.module.scss";
 
 const links = [
   { href: "#home", label: "Home", icon: "fa-solid fa-house" },
+  { href: "#chat", label: "Chat", icon: "fa-solid fa-comments" },
   { href: "#about", label: "About", icon: "fa-solid fa-address-card" },
   { href: "#skills", label: "Skills", icon: "fa-solid fa-code" },
   { href: "#projects", label: "Projects", icon: "fa-solid fa-diagram-project" },

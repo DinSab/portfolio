@@ -4,42 +4,46 @@ import Navbar from "@/components/Navbar";
 import Section from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Footer from "@/components/Footer";
+import MeSection from "@/components/MeSection";
+import Chat from "@/components/Chat";
 
 export default function Page() {
   return (
+    <>
+    <div className={styles.macbg}></div>
     <div className={styles.page}>
       <Navbar />
 
       <main className={styles.main}>
-        <Section id="home" title="Hi, ich bin">
-          <div className={styles.hero}>
-            <div>
-              <h1 className={styles.heroTitle}>
-                {portfolio.firstName}
-              </h1>
-              <p className={styles.heroRole}>{portfolio.role}</p>
-              <p className={styles.heroIntro}>{portfolio.intro}</p>
+        <MeSection id="home">
+          <img alt="Bild in Shibuya Sky" src="/img/bild_shibuya_sky_1.JPG"/>
+          <h1>{portfolio.firstName}</h1>
+          <p>{portfolio.role}</p>
+          <p>{portfolio.intro}</p>
 
-              <div className={styles.heroActions}>
-                <a className={styles.primaryBtn} href="#projects">
-                  Projekte ansehen
-                </a>
-                <a className={styles.secondaryBtn} href="/cv.pdf" download>
-                  CV herunterladen
-                </a>
-              </div>
-            </div>
-
-            <div className={styles.heroCard}>
-              <p className={styles.heroCardTitle}>Kurzprofil</p>
-              <ul className={styles.heroList}>
-                <li>📍 {portfolio.location}</li>
-                <li>🧠 Fokus: UI/UX + saubere Architektur</li>
-                <li>⚙️ TypeScript / React / Next.js</li>
-              </ul>
-            </div>
+          <div className={styles.links}>
+            <a className={styles.link} href={portfolio.contact.github} target="_blank" rel="noreferrer">
+              <i className="fa-brands fa-github"></i>
+            </a>
+            <a className={styles.link} href={portfolio.contact.linkedin} target="_blank" rel="noreferrer">
+              <i className="fa-brands fa-square-linkedin"></i>
+            </a>
+            <a className={styles.link} href={portfolio.contact.instagram} target="_blank" rel="noreferrer">
+              <i className="fa-brands fa-instagram"></i>
+            </a>
           </div>
-        </Section>
+
+        </MeSection>
+
+        <Chat id="chat" title="Ask me anything!">
+
+          <div className={styles.note}>
+            <p className={styles.noteTitle}>Chatbot (später)</p>
+            <p className={styles.noteText}>
+              Backend ist vorbereitet unter <code>/api/chat</code>. Frontend-Widget bauen wir dann als Bonus.
+            </p>
+          </div>
+        </Chat>
 
         <Section id="about" title="About me">
           <p className={styles.text}>{portfolio.about}</p>
@@ -62,34 +66,10 @@ export default function Page() {
             ))}
           </div>
         </Section>
-
-        <Section id="contact" title="Contact">
-          <p className={styles.text}>
-            Schreib mir gern:{" "}
-            <a className={styles.link} href={`mailto:${portfolio.contact.email}`}>
-              {portfolio.contact.email}
-            </a>
-          </p>
-
-          <div className={styles.links}>
-            <a className={styles.link} href={portfolio.contact.github} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-            <a className={styles.link} href={portfolio.contact.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
-            </a>
-          </div>
-
-          <div className={styles.note}>
-            <p className={styles.noteTitle}>Chatbot (später)</p>
-            <p className={styles.noteText}>
-              Backend ist vorbereitet unter <code>/api/chat</code>. Frontend-Widget bauen wir dann als Bonus.
-            </p>
-          </div>
-        </Section>
       </main>
 
       <Footer />
     </div>
+  </>
   );
 }
