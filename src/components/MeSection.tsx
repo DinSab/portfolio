@@ -1,6 +1,6 @@
 import styles from "@/styles/components/mesection.module.scss";
 
-export default function Section({
+export default function MeSection({
   id,
   children,
 }: {

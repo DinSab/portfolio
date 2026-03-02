@@ -1,14 +1,14 @@
 @use "@/styles/variables.scss" as *;
 
 .section {
-  z-index: 2;
-  position: fixed;
+  position: relative;
+  min-height: 100vh;
 }
 
 .inner {
-  margin-top: -55px;
-  margin-left: 300px;
-  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 30px;
+  max-width: $max-width;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,13 @@
 }
 
 .content {
-  background: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.12),
+    rgba(16, 185, 129, 0.10)
+  );
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   box-shadow: $box-shadow;
   border-radius: $radius;
   padding: 5px 30px;
@@ -29,7 +35,7 @@
   img {
     margin-top: 20px;
     border-radius: $radius;
-    max-width: 100%;
+    max-width: 400px;
   }
 
   h1 {
