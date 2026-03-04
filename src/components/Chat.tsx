@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Send, Sparkles } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "@/styles/components/chat.module.scss";
 
 interface Message {
@@ -12,18 +13,60 @@ interface Message {
 }
 
 const shortcuts = [
-  { id: 1, label: "Über mich", emoji: "👋" },
+  { id: 1, label: "Über Din", emoji: "👋" },
   { id: 2, label: "Skills & Technologien", emoji: "⚡" },
   { id: 3, label: "Projekte & Erfahrung", emoji: "💼" },
   { id: 4, label: "Kontakt aufnehmen", emoji: "📧" },
 ];
 
+function TypewriterText({ text, speed = 12 }: { text: string; speed?: number }) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setDisplayed("");
+    setDone(false);
+
+    if (!text) {
+      setDone(true);
+      return;
+    }
+
+    let i = 0;
+    const intervalId = window.setInterval(() => {
+      i += 1;
+      setDisplayed(text.slice(0, i));
+
+      if (i >= text.length) {
+        window.clearInterval(intervalId);
+        setDone(true);
+      }
+    }, speed);
+
+    return () => window.clearInterval(intervalId);
+  }, [text, speed]);
+
+  return (
+    <span className={styles.typewriterText}>
+      {displayed}
+      <span
+        aria-hidden="true"
+        className={`${styles.typewriterCaret} ${done ? styles.typewriterCaretDone : ""}`}
+      >
+        |
+      </span>
+    </span>
+  );
+}
+
 export default function ChatSection({ id }: { id: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const typingTimeoutRef = useRef<number | null>(null);
 
-  const handleSendMessage = (text: string) => {
+  const handleSendMessage = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
 
@@ -36,17 +79,41 @@ export default function ChatSection({ id }: { id: string }) {
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
+    setIsTyping(true);
 
-    // Simulated AI reply (replace later with your API call)
-    window.setTimeout(() => {
-      const aiMessage: Message = {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question: trimmed }),
+      });
+
+      const data = await response.json();
+
+      if (typingTimeoutRef.current) window.clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = window.setTimeout(() => {
+        const aiMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: data.answer,
+          sender: "ai",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, aiMessage]);
+        setIsTyping(false);
+      }, 300);
+    } catch (error) {
+      console.error("Error fetching AI response:", error);
+      setIsTyping(false);
+      const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "Das ist eine Beispielantwort. Hier wird später die KI-Integration erfolgen, die Fragen über dich beantwortet.",
+        text: "Entschuldigung, es gab einen Fehler beim Abrufen der Antwort.",
         sender: "ai",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, aiMessage]);
-    }, 800);
+      setMessages((prev) => [...prev, errorMessage]);
+    }
   };
 
   const handleShortcutClick = (label: string) => handleSendMessage(label);
@@ -59,12 +126,26 @@ export default function ChatSection({ id }: { id: string }) {
   useEffect(() => {
     if (!scrollerRef.current) return;
     scrollerRef.current.scrollTop = scrollerRef.current.scrollHeight;
-  }, [messages.length]);
+  }, [messages.length, isTyping]);
+
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) window.clearTimeout(typingTimeoutRef.current);
+    };
+  }, []);
 
   const canSend = inputValue.trim().length > 0;
 
+  const latestAiMessageId = [...messages].reverse().find((msg) => msg.sender === "ai")?.id;
+
   return (
-    <section id={id} className={styles.wrapper}>
+    <motion.section 
+      id={id} 
+      className={styles.wrapper} 
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ amount: 0.25 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}>
       <div className={styles.shell}>
         {/* Header */}
         <header className={styles.header}>
@@ -77,7 +158,7 @@ export default function ChatSection({ id }: { id: string }) {
 
         {/* Messages */}
         <div ref={scrollerRef} className={styles.messages}>
-          {messages.length === 0 ? (
+          {messages.length === 0 && !isTyping ? (
             <div className={styles.emptyState}>
               <div className={styles.emptyIconWrap}>
                 <Sparkles className={styles.emptyIcon} />
@@ -99,10 +180,47 @@ export default function ChatSection({ id }: { id: string }) {
                       m.sender === "user" ? styles.bubbleUser : styles.bubbleAi
                     }`}
                   >
-                    <p className={styles.bubbleText}>{m.text}</p>
+                    <p className={styles.bubbleText}>
+                      {m.sender === "ai" && m.id === latestAiMessageId ? (
+                        <TypewriterText text={m.text} />
+                      ) : (
+                        m.text
+                      )}
+                    </p>
                   </div>
                 </div>
               ))}
+
+              <AnimatePresence>
+                {isTyping && (
+                  <motion.div
+                    key="typing"
+                    className={`${styles.row} ${styles.rowAi}`}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <div className={`${styles.bubble} ${styles.bubbleAi} ${styles.typingBubble}`}>
+                      <div className={styles.typingDots} aria-label="AI tippt..." role="status">
+                        {[0, 1, 2].map((i) => (
+                          <motion.span
+                            key={i}
+                            className={styles.typingDot}
+                            animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+                            transition={{
+                              duration: 0.9,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                              delay: i * 0.05,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
         </div>
@@ -149,6 +267,6 @@ export default function ChatSection({ id }: { id: string }) {
           </form>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -2,11 +2,11 @@
 
 .wrapper {
   width: 100%;
+  margin: 0 auto;
   max-width: $max-width;
   height: 700px;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
 }
 
 .shell {
@@ -64,6 +64,48 @@
   flex: 1;
   padding: 18px 22px;
   overflow-y: auto;
+}
+
+.typingBubble {
+  min-width: 64px;
+}
+
+.typingDots {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 18px;
+}
+
+.typingDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.typewriterText {
+  display: inline;
+  white-space: pre-wrap;
+}
+
+.typewriterCaret {
+  display: inline-block;
+  margin-left: 2px;
+  opacity: 1;
+  animation: caretBlink 0.1s steps(1) infinite;
+}
+
+.typewriterCaretDone {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes caretBlink {
+  50% {
+    opacity: 0;
+  }
 }
 
 .thread {
