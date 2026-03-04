@@ -6,6 +6,11 @@
   min-height: 100vh;
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
 .macbg {
   position: fixed;
   content: "";
@@ -46,20 +51,6 @@
   /* Respektiert “Reduce Motion” */
   @media (prefers-reduced-motion: reduce){
     &::before, &::after{ animation: none; }
-  }
-}
-
-.main {
-  padding: 72px 18px 48px;
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 18px;
-
-  @media (max-width: 860px) {
-    grid-template-columns: 1fr;
   }
 }
 

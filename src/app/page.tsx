@@ -5,7 +5,7 @@ import Section from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Footer from "@/components/Footer";
 import MeSection from "@/components/MeSection";
-import Chat from "@/components/Chat";
+import ChatSection from "@/components/Chat";
 
 export default function Page() {
   return (
@@ -35,15 +35,7 @@ export default function Page() {
 
         </MeSection>
 
-        <Chat id="chat" title="Ask me anything!">
-
-          <div className={styles.note}>
-            <p className={styles.noteTitle}>Chatbot (später)</p>
-            <p className={styles.noteText}>
-              Backend ist vorbereitet unter <code>/api/chat</code>. Frontend-Widget bauen wir dann als Bonus.
-            </p>
-          </div>
-        </Chat>
+        <ChatSection id="chat" />
 
         <Section id="about" title="About me">
           <p className={styles.text}>{portfolio.about}</p>

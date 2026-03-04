@@ -1,0 +1,127 @@
+{
+  "name": "Din Sabic",
+  "role": "Frontend / Fullstack Developer",
+  "location": "St. Gallen, Schweiz",
+  "intro": "Ich entwickle moderne, performante Webanwendungen mit Fokus auf React, Next.js und TypeScript.",
+  "about": "Frontend-Developer mit strukturierter Herangehensweise an technisch komplexe Aufgaben. Mein Fokus liegt auf sauberem, wartbarem Code, guter UX und kollaborativer Teamarbeit. Ich arbeite gerne eng mit Stakeholdern zusammen und setze Anforderungen praxisnah um.",
+  "skills": [
+    "TypeScript",
+    "JavaScript",
+    "React",
+    "Next.js",
+    "CSS/SCSS",
+    "Git",
+    "GitHub",
+    "SQL",
+    "LeanIX Custom Reports",
+    "Chart.js",
+    "Redux",
+    "MS SQL Server",
+    "Jest",
+    "Vitest"
+  ],
+  "skillLevels": {
+    "TypeScript": 4,
+    "JavaScript": 4,
+    "React": 4,
+    "Next.js": 3,
+    "CSS": 3,
+    "Git/GitHub": 3,
+    "Jest/Vitest": 2
+  },
+  "projects": [
+    {
+      "title": "Sticky Navbar",
+      "description": "Lightweight sticky navigation example mit HTML, CSS und JavaScript.",
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "link": "https://github.com/DinSab/sticky-navbar"
+    },
+    {
+      "title": "Portfolio Website",
+      "description": "Moderne persönliche Portfolio-Website mit Next.js, TypeScript und SCSS.",
+      "technologies": ["React", "Next.js", "TypeScript", "SCSS"],
+      "link": "https://github.com/DinSab/portfolio-website"
+    }
+  ],
+  "experience": [
+    {
+      "title": "Frontend Entwickler (Praxiseinsatz)",
+      "company": "Mystery Global GmbH",
+      "location": "Schweiz",
+      "start": "2026-01",
+      "end": "2026-02",
+      "highlights": [
+        "Implementierung kleiner Features an der Unternehmenswebseite",
+        "Identifikation von Sicherheitslücken und Optimierungspotenzial"
+      ]
+    },
+    {
+      "title": "Auf Stellensuche / Eigenprojekte",
+      "company": "Selbstständig",
+      "location": "St. Gallen",
+      "start": "2025-08",
+      "end": "heute",
+      "highlights": [
+        "Entwicklung einer persönlichen Portfolio-Website",
+        "Umsetzung kleiner Praxisprojekte zur Vertiefung des Stacks"
+      ]
+    },
+    {
+      "title": "Informatiker EFZ (Praktikum, Fullstack/Frontend)",
+      "company": "St. Galler Kantonalbank",
+      "location": "St. Gallen",
+      "start": "2024-08",
+      "end": "2025-07",
+      "highlights": [
+        "Entwicklung von LeanIX-Reports mit React, TypeScript und Chart.js",
+        "Weiterentwicklung einer internen Web-Applikation inkl. Admin-Interface (React, Next.js, Redux, MS SQL Server)",
+        "Peer Reviews und Versionsverwaltung mit Git/GitHub",
+        "Anforderungsanalyse mit Stakeholdern und Umsetzung mit Fachbereichen"
+      ]
+    },
+    {
+      "title": "IMS-Praktikant",
+      "company": "Vermando AG",
+      "location": "Herisau",
+      "start": "2022-09",
+      "end": "2022-10",
+      "highlights": [
+        "Mitarbeit an internen Tools mit HTML, CSS, JavaScript und Vue.js"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Informatikmittelschule Wirtschaft",
+      "institution": "Kantonsschule am Brühl",
+      "start": "2021-08",
+      "end": "2025-07"
+    },
+    {
+      "degree": "Berufsmaturität Wirtschaft und Dienstleistungen (Typ Wirtschaft)",
+      "institution": "Kantonsschule am Brühl",
+      "date": "2025-07",
+      "status": "Abgeschlossen"
+    }
+  ],
+  "languages": [
+    { "name": "Deutsch", "level": "Muttersprache" },
+    { "name": "Bosnisch", "level": "Muttersprache" },
+    { "name": "Englisch", "level": "Fortgeschritten (Sprachaufenthalt C1-Level)" },
+    { "name": "Französisch", "level": "Grundkenntnisse" }
+  ],
+  "contact": {
+    "email": "sabicdin@gmail.com",
+    "phone": "076 261 29 92",
+    "address": "Im Grund 9, 9012 St. Gallen",
+    "github": "https://github.com/DinSab",
+    "linkedin": "https://www.linkedin.com/in/din-sabic/",
+    "instagram": "https://www.instagram.com/din.sabic/"
+  },
+  "personal": {
+    "birthDate": "2005-11-28",
+    "drivingLicense": "Kategorie B",
+    "carAvailable": true
+  },
+  "availability": "Verfügbar für neue Projekte und Herausforderungen."
+}
