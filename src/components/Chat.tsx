@@ -71,7 +71,7 @@ export default function ChatSection({ id }: { id: string }) {
     if (!trimmed) return;
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       text: trimmed,
       sender: "user",
       timestamp: new Date(),
@@ -90,12 +90,16 @@ export default function ChatSection({ id }: { id: string }) {
         body: JSON.stringify({ question: trimmed }),
       });
 
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.statusText}`);
+      }
+
       const data = await response.json();
 
       if (typingTimeoutRef.current) window.clearTimeout(typingTimeoutRef.current);
       typingTimeoutRef.current = window.setTimeout(() => {
         const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
+          id: crypto.randomUUID(),
           text: data.answer,
           sender: "ai",
           timestamp: new Date(),
@@ -107,7 +111,7 @@ export default function ChatSection({ id }: { id: string }) {
       console.error("Error fetching AI response:", error);
       setIsTyping(false);
       const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: crypto.randomUUID(),
         text: "Entschuldigung, es gab einen Fehler beim Abrufen der Antwort.",
         sender: "ai",
         timestamp: new Date(),

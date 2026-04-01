@@ -3,6 +3,22 @@ import profile from "@/data/profile.json";
 
 // Simple in-memory rate limiting (IP-based)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+let lastCleanupAt = 0;
+
+// Sweep infrequently to keep per-request overhead low while preventing unbounded growth.
+const RATE_LIMIT_CLEANUP_INTERVAL_MS = 60_000;
+
+function cleanupExpiredRateLimitEntries(now: number): void {
+  if (now - lastCleanupAt < RATE_LIMIT_CLEANUP_INTERVAL_MS) return;
+
+  for (const [key, record] of rateLimitMap.entries()) {
+    if (now > record.resetTime) {
+      rateLimitMap.delete(key);
+    }
+  }
+
+  lastCleanupAt = now;
+}
 
 function getRateLimitKey(req: Request): string {
   const forwarded = req.headers.get("x-forwarded-for");
@@ -16,6 +32,8 @@ function getRateLimitKey(req: Request): string {
 
 function checkRateLimit(ip: string, maxRequests = 10, windowMs = 60_000): boolean {
   const now = Date.now();
+  cleanupExpiredRateLimitEntries(now);
+
   const record = rateLimitMap.get(ip);
 
   if (!record || now > record.resetTime) {
