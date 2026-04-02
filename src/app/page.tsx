@@ -5,7 +5,7 @@ import Section from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Footer from "@/components/Footer";
 import MeSection from "@/components/MeSection";
-import Chat from "@/components/Chat";
+import ChatSection from "@/components/Chat";
 
 export default function Page() {
   return (
@@ -16,11 +16,10 @@ export default function Page() {
 
       <main className={styles.main}>
         <MeSection id="home">
-          <img alt="Bild in Shibuya Sky" src="/img/bild_shibuya_sky_1.JPG"/>
+          <img alt="Bild in Shibuya Sky" src="/img/bild_zara.JPG"/>
           <h1>{portfolio.firstName}</h1>
           <p>{portfolio.role}</p>
           <p>{portfolio.intro}</p>
-
           <div className={styles.links}>
             <a className={styles.link} href={portfolio.contact.github} target="_blank" rel="noreferrer">
               <i className="fa-brands fa-github"></i>
@@ -31,19 +30,14 @@ export default function Page() {
             <a className={styles.link} href={portfolio.contact.instagram} target="_blank" rel="noreferrer">
               <i className="fa-brands fa-instagram"></i>
             </a>
+            <a className={styles.link} href="/public/Sabic_Din_Lebenslauf.pdf" target="_blank" rel="noreferrer" download>
+              <i className="fa-solid fa-file"></i>
+            </a>
           </div>
 
         </MeSection>
 
-        <Chat id="chat" title="Ask me anything!">
-
-          <div className={styles.note}>
-            <p className={styles.noteTitle}>Chatbot (später)</p>
-            <p className={styles.noteText}>
-              Backend ist vorbereitet unter <code>/api/chat</code>. Frontend-Widget bauen wir dann als Bonus.
-            </p>
-          </div>
-        </Chat>
+        <ChatSection id="chat" />
 
         <Section id="about" title="About me">
           <p className={styles.text}>{portfolio.about}</p>
