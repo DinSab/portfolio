@@ -31,84 +31,105 @@
   },
   "projects": [
     {
-      "title": "Sticky Navbar",
-      "description": "Lightweight sticky navigation example mit HTML, CSS und JavaScript.",
-      "technologies": ["HTML", "CSS", "JavaScript"],
-      "link": "https://github.com/DinSab/sticky-navbar"
+      "title": "LeanIX Reporting Application",
+      "description": "Internal reporting solution built for enterprise architecture data visualization and analysis.",
+      "role": "Frontend / application developer during my IMS internship",
+      "technologies": ["React", "TypeScript", "Chart.js", "LeanIX", "Git", "GitHub"],
+      "highlights": [
+        "Built a LeanIX report using a React application with Chart.js and TypeScript.",
+        "Worked on data visualization, report structure, and implementation details for internal reporting needs.",
+        "Delivered a working reporting solution in a new topic area for the team."
+      ],
+      "link": "Private / available on request"
     },
     {
-      "title": "Portfolio Website",
-      "description": "Moderne persönliche Portfolio-Website mit Next.js, TypeScript und SCSS.",
-      "technologies": ["React", "Next.js", "TypeScript", "SCSS"],
-      "link": "https://github.com/DinSab/portfolio-website"
+      "title": "Internal Web Application with Admin Interface",
+      "description": "A web application for managing application-related information for employees.",
+      "role": "Frontend / web application developer during my IMS internship",
+      "technologies": ["React", "TypeScript", "Next.js", "Redux", "Microsoft SQL Server", "Git", "GitHub"],
+      "highlights": [
+        "Contributed to the further development of a web application including an admin interface.",
+        "Worked on requirement gathering with stakeholders and implemented features in the frontend and application logic.",
+        "Helped improve an internal tool used to manage application information with structured development workflows including peer reviews."
+      ],
+      "link": "Private / available on request"
+    },
+    {
+      "title": "Mystery Vision Website Optimization",
+      "description": "Optimization and further development of a company website built on Shopify.",
+      "role": "Frontend developer during a practical assignment",
+      "technologies": ["Shopify", "Figma"],
+      "highlights": [
+        "Improved and extended the website, including smaller bug fixes and optimization proposals.",
+        "Identified and documented security issues and analyzed structure, usability, and performance.",
+        "Combined design preparation in Figma with technical implementation in Shopify."
+      ],
+      "link": "Available on request"
     }
   ],
   "experience": [
     {
-      "title": "Frontend Entwickler (Praxiseinsatz)",
-      "company": "Mystery Global GmbH",
-      "location": "Schweiz",
-      "start": "2026-01",
-      "end": "2026-02",
-      "highlights": [
-        "Implementierung kleiner Features an der Unternehmenswebseite",
-        "Identifikation von Sicherheitslücken und Optimierungspotenzial"
-      ]
-    },
-    {
-      "title": "Auf Stellensuche / Eigenprojekte",
-      "company": "Selbstständig",
-      "location": "St. Gallen",
-      "start": "2025-08",
-      "end": "heute",
-      "highlights": [
-        "Entwicklung einer persönlichen Portfolio-Website",
-        "Umsetzung kleiner Praxisprojekte zur Vertiefung des Stacks"
-      ]
-    },
-    {
-      "title": "Informatiker EFZ (Praktikum, Fullstack/Frontend)",
-      "company": "St. Galler Kantonalbank",
+      "title": "IMS Praktikant / Frontend Developer",
+      "company": "St.Galler Kantonalbank AG",
       "location": "St. Gallen",
       "start": "2024-08",
       "end": "2025-07",
+      "responsibilities": [
+        "Developed a LeanIX report with React, Chart.js, and TypeScript.",
+        "Contributed to the further development of a web application including an admin interface.",
+        "Gathered requirements with stakeholders.",
+        "Implemented solutions using React, TypeScript, Next.js, Redux, and Microsoft SQL Server.",
+        "Worked with Git and GitHub including peer reviews."
+      ],
       "highlights": [
-        "Entwicklung von LeanIX-Reports mit React, TypeScript und Chart.js",
-        "Weiterentwicklung einer internen Web-Applikation inkl. Admin-Interface (React, Next.js, Redux, MS SQL Server)",
-        "Peer Reviews und Versionsverwaltung mit Git/GitHub",
-        "Anforderungsanalyse mit Stakeholdern und Umsetzung mit Fachbereichen"
+        "Built internal reporting UI with React and TypeScript.",
+        "Worked on an admin interface for managing application information.",
+        "Collaborated with stakeholders to clarify and implement requirements.",
+        "Adapted quickly to a new domain and delivered strong results in a topic that was new to the team."
+      ],
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Next.js",
+        "Redux",
+        "Chart.js",
+        "Microsoft SQL Server",
+        "Git",
+        "GitHub",
+        "LeanIX"
       ]
     },
     {
-      "title": "IMS-Praktikant",
-      "company": "Vermando AG",
-      "location": "Herisau",
-      "start": "2022-09",
-      "end": "2022-10",
+      "title": "Frontend Developer",
+      "company": "Mystery Vision GmbH",
+      "location": "Schweiz",
+      "start": "2026-01",
+      "end": "2026-02",
+      "responsibilities": [
+        "Worked on the company website.",
+        "Reviewed and documented security issues.",
+        "Analyzed usability and performance.",
+        "Prepared design approaches in Figma.",
+        "Implemented changes in Shopify, fixed smaller bugs, and documented optimization ideas."
+      ],
       "highlights": [
-        "Mitarbeit an internen Tools mit HTML, CSS, JavaScript und Vue.js"
-      ]
+        "Quickly learned the existing systems and worked independently.",
+        "Delivered structured, careful, and solution-oriented work.",
+        "Contributed improvement ideas for workflows and product quality.",
+        "Exceeded expectations during the practical assignment according to the certificate."
+      ],
+      "technologies": ["Shopify", "Figma"]
     }
   ],
   "education": [
     {
-      "degree": "Informatikmittelschule Wirtschaft",
-      "institution": "Kantonsschule am Brühl",
-      "start": "2021-08",
-      "end": "2025-07"
-    },
-    {
-      "degree": "Berufsmaturität Wirtschaft und Dienstleistungen (Typ Wirtschaft)",
-      "institution": "Kantonsschule am Brühl",
-      "date": "2025-07",
-      "status": "Abgeschlossen"
+      "degree": "IMS background with application development related training",
+      "institution": "High-level details only"
     }
   ],
   "languages": [
-    { "name": "Deutsch", "level": "Muttersprache" },
-    { "name": "Bosnisch", "level": "Muttersprache" },
-    { "name": "Englisch", "level": "Fortgeschritten (Sprachaufenthalt C1-Level)" },
-    { "name": "Französisch", "level": "Grundkenntnisse" }
+    { "name": "German" },
+    { "name": "English" }
   ],
   "contact": {
     "email": "sabicdin@gmail.com",
@@ -123,5 +144,40 @@
     "drivingLicense": "Kategorie B",
     "carAvailable": true
   },
-  "availability": "Verfügbar für neue Projekte und Herausforderungen."
+  "availability": "Open to junior frontend or frontend/fullstack roles. Switzerland preferred. Remote or hybrid is also fine. For exact availability, please contact directly.",
+  "strengths": [
+    "Strong self-organization",
+    "Fast learning and quick understanding of new systems",
+    "Structured and careful work style",
+    "Reliable and responsible",
+    "Solution-oriented thinking",
+    "Good analytical skills",
+    "Able to work independently and also collaborate well with stakeholders and teams"
+  ],
+  "chatPreferences": {
+    "tone": "professional and concise",
+    "languagePolicy": "Respond in the same language as the visitor.",
+    "contactPriority": ["email", "linkedin", "github"],
+    "mentionOnlyWhenAsked": [
+      "birth date",
+      "driving license",
+      "car availability",
+      "salary expectations",
+      "notice period"
+    ],
+    "neverMention": [
+      "Anything not in the provided profile or projects",
+      "Guessed missing details",
+      "Invented metrics, clients, team sizes, or business impact",
+      "Personal or private details from certificates",
+      "Exact legal or administrative background unless directly relevant"
+    ],
+    "answerStyle": [
+      "Prefer facts over hype",
+      "Do not invent numbers or business impact",
+      "If a detail is missing, say not publicly listed or available on request",
+      "Keep answers short first, then expand if the visitor asks follow-up questions",
+      "Prefer concrete technologies and responsibilities over generic claims"
+    ]
+  }
 }

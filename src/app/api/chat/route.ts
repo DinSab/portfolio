@@ -47,6 +47,60 @@ function checkRateLimit(ip: string, maxRequests = 10, windowMs = 60_000): boolea
   return true;
 }
 
+function formatList(items: string[]): string {
+  return items.map((item) => `- ${item}`).join("\n");
+}
+
+function formatProjects(): string {
+  return profile.projects
+    .map(
+      (project) => `- ${project.title}: ${project.description}\n  Role: ${project.role ?? "Not publicly listed"}\n  Stack: ${project.technologies.join(", ")}\n  Highlights: ${(project.highlights ?? []).join(" ")}\n  Link: ${project.link}`
+    )
+    .join("\n");
+}
+
+function formatExperience(): string {
+  return profile.experience
+    .map(
+      (entry) => `- ${entry.title} at ${entry.company} (${entry.start} to ${entry.end})\n  Responsibilities: ${(entry.responsibilities ?? []).join(" ")}\n  Highlights: ${(entry.highlights ?? []).join(" ")}\n  Stack: ${(entry.technologies ?? []).join(", ") || "Not publicly listed"}`
+    )
+    .join("\n");
+}
+
+function formatEducation(): string {
+  return profile.education
+    .map((entry) => `- ${entry.degree} (${entry.institution})`)
+    .join("\n");
+}
+
+function formatLanguages(): string {
+  return profile.languages.map((entry) => `- ${entry.name}`).join("\n");
+}
+
+function isLikelyGermanText(text: string): boolean {
+  return /\b(ich|und|der|die|das|mit|uber|projekt|erfahrung|kontakt|hallo|danke)\b|[äöüß]/i.test(
+    text
+  );
+}
+
+function createFallbackAnswer(question: string): string {
+  if (isLikelyGermanText(question)) {
+    return [
+      "Dazu habe ich hier gerade keine verlassliche offentliche Antwort.",
+      "",
+      `Du kannst mir die Frage aber direkt per E-Mail schicken: **${profile.contact.email}**.`,
+      "Ich antworte dir dann gerne personlich.",
+    ].join("\n");
+  }
+
+  return [
+    "I do not have a reliable public answer for that here.",
+    "",
+    `You can contact me directly by email at **${profile.contact.email}**.`,
+    "I will be happy to answer you personally.",
+  ].join("\n");
+}
+
 export async function POST(req: Request) {
   try {
     const ip = getRateLimitKey(req);
@@ -81,9 +135,11 @@ export async function POST(req: Request) {
       );
     }
 
+    const fallbackAnswer = createFallbackAnswer(trimmedQuestion);
+
     if (!process.env.OPENAI_API_KEY) {
       console.error("OPENAI_API_KEY is not configured");
-      return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
+      return NextResponse.json({ answer: fallbackAnswer });
     }
 
     const contactLines = [
@@ -92,6 +148,8 @@ export async function POST(req: Request) {
       `- LinkedIn: ${profile.contact.linkedin}`,
       ...(profile.contact.instagram ? [`- Instagram: ${profile.contact.instagram}`] : []),
     ].join("\n");
+
+    const contactPriority = formatList(profile.chatPreferences.contactPriority);
 
     const systemPrompt = `
 You are an AI assistant representing ${profile.name}, a ${profile.role} based in ${profile.location}.
@@ -104,15 +162,53 @@ ${profile.about}
 Skills & Technologies:
 ${profile.skills.join(", ")}
 
+Strengths:
+${formatList(profile.strengths)}
+
+Projects:
+${formatProjects()}
+
+Experience:
+${formatExperience()}
+
+Education:
+${formatEducation()}
+
+Languages:
+${formatLanguages()}
+
+Availability:
+${profile.availability}
+
 Contact Information:
 ${contactLines}
 
+Preferred contact priority:
+${contactPriority}
+
+Chat tone and language:
+- ${profile.chatPreferences.tone}
+- ${profile.chatPreferences.languagePolicy}
+
+Mention only when asked:
+${formatList(profile.chatPreferences.mentionOnlyWhenAsked)}
+
+Never mention:
+${formatList(profile.chatPreferences.neverMention)}
+
+Answer style guardrails:
+${formatList(profile.chatPreferences.answerStyle)}
+
 When answering questions:
-1. Provide accurate information based on the profile above
-2. Be friendly, professional, and enthusiastic
-3. If you don't know something specific, say so honestly
-4. Keep responses concise and relevant
-5. Always respond in the same language as the question (German or English)
+1. Provide accurate information based only on the profile above
+2. Be professional, concise, and grounded in facts
+3. Do not guess or invent missing details, numbers, metrics, clients, team sizes, or business impact
+4. If a detail is missing, say that it is not publicly listed or available on request
+5. Keep responses concise first, then expand if the visitor asks a follow-up question
+6. Prefer concrete technologies, responsibilities, and project details over generic claims
+7. Always respond in the same language as the question (German or English)
+8. Use simple markdown formatting when it improves readability, such as short bullet lists and bold labels; avoid tables
+9. If you cannot answer confidently from the provided profile, say the detail is not publicly listed and suggest contacting ${profile.name} directly via email at ${profile.contact.email}
 `.trim();
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -135,7 +231,7 @@ When answering questions:
     if (!response.ok) {
       const errText = await response.text();
       console.error("OpenAI API error:", response.status, errText);
-      return NextResponse.json({ error: "Failed to get response from AI" }, { status: 502 });
+      return NextResponse.json({ answer: fallbackAnswer });
     }
 
     const data = (await response.json()) as {
@@ -144,12 +240,13 @@ When answering questions:
 
     const answer = data?.choices?.[0]?.message?.content?.trim();
     if (!answer) {
-      return NextResponse.json({ error: "Unexpected response format from AI" }, { status: 500 });
+      return NextResponse.json({ answer: fallbackAnswer });
     }
 
     return NextResponse.json({ answer });
   } catch (error) {
     console.error("Unhandled API error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    const fallbackAnswer = createFallbackAnswer("fallback");
+    return NextResponse.json({ answer: fallbackAnswer });
   }
 }

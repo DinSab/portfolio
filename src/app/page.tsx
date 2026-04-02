@@ -16,11 +16,10 @@ export default function Page() {
 
       <main className={styles.main}>
         <MeSection id="home">
-          <img alt="Bild in Shibuya Sky" src="/img/bild_shibuya_sky_1.JPG"/>
+          <img alt="Bild in Shibuya Sky" src="/img/bild_zara.JPG"/>
           <h1>{portfolio.firstName}</h1>
           <p>{portfolio.role}</p>
           <p>{portfolio.intro}</p>
-
           <div className={styles.links}>
             <a className={styles.link} href={portfolio.contact.github} target="_blank" rel="noreferrer">
               <i className="fa-brands fa-github"></i>
@@ -30,6 +29,9 @@ export default function Page() {
             </a>
             <a className={styles.link} href={portfolio.contact.instagram} target="_blank" rel="noreferrer">
               <i className="fa-brands fa-instagram"></i>
+            </a>
+            <a className={styles.link} href="/public/Sabic_Din_Lebenslauf.pdf" target="_blank" rel="noreferrer" download>
+              <i className="fa-solid fa-file"></i>
             </a>
           </div>
 
