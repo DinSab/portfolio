@@ -8,8 +8,7 @@ const links = [
   { href: "#chat", label: "Chat", icon: "fa-solid fa-comments" },
   { href: "#about", label: "About", icon: "fa-solid fa-address-card" },
   { href: "#skills", label: "Skills", icon: "fa-solid fa-code" },
-  { href: "#projects", label: "Projects", icon: "fa-solid fa-diagram-project" },
-  { href: "#contact", label: "Contact", icon: "fa-solid fa-envelope" },
+  { href: "#spotify", label: "Spotify", icon: "fa-brands fa-spotify" },
 ];
 
 export default function Navbar() {

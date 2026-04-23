@@ -1,0 +1,537 @@
+@use "@/styles/variables.scss" as *;
+
+.section {
+  padding: 34px 0;
+  scroll-margin-top: 60px;
+  max-width: $max-width;
+  margin: 0 auto;
+  width: 100%;
+  padding-left: 18px;
+  padding-right: 18px;
+  box-sizing: border-box;
+}
+
+.shell {
+  border-radius: $radius;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(30, 215, 96, 0.08), rgba(25, 20, 40, 0.12));
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: $box-shadow;
+}
+
+// ─── Header ──────────────────────────────────────────────────────────────
+.header {
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spotifyIcon {
+  width: 22px;
+  height: 22px;
+  color: #1ed760;
+  filter: drop-shadow(0 0 6px rgba(30, 215, 96, 0.4));
+  flex-shrink: 0;
+}
+
+.kicker {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 0.01em;
+}
+
+.lead {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.52);
+  letter-spacing: 0.02em;
+}
+
+.previewHint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+// ─── Now Playing ─────────────────────────────────────────────────────────
+.nowPlayingBar {
+  padding: 0 22px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 4px;
+}
+
+.nowPlayingLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #1ed760;
+  padding: 10px 0 4px;
+}
+
+.pulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #1ed760;
+  box-shadow: 0 0 6px #1ed760;
+  animation: pulseGlow 1.4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.82); }
+}
+
+// ─── Track list ──────────────────────────────────────────────────────────
+.trackList {
+  padding: 6px 0 8px;
+}
+
+.empty {
+  padding: 18px 22px;
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+// ─── Track row ───────────────────────────────────────────────────────────
+.trackRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 22px;
+  border-radius: 0;
+  cursor: default;
+  transition: background 140ms ease;
+  user-select: none;
+
+  &[role="button"] {
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(30, 215, 96, 0.6);
+      outline-offset: -2px;
+    }
+  }
+}
+
+.trackRowActive {
+  background: rgba(30, 215, 96, 0.07) !important;
+}
+
+.trackArt {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+  }
+}
+
+.nowPlayingDot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 3px;
+
+  &::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #1ed760;
+    box-shadow: 0 0 5px #1ed760;
+    animation: pulseGlow 1.4s ease-in-out infinite;
+  }
+}
+
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.52);
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 140ms ease;
+
+  .trackRow:hover & {
+    opacity: 1;
+  }
+}
+
+.playOverlayPause {
+  opacity: 1;
+}
+
+.trackInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trackName {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.90);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trackArtist {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.48);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trackMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.trackDuration {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.36);
+  font-variant-numeric: tabular-nums;
+}
+
+.noPreview {
+  font-size: 11px;
+  color: rgba(30, 215, 96, 0.82);
+  border: 1px solid rgba(30, 215, 96, 0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+  letter-spacing: 0.02em;
+}
+
+// ─── Mini persistent player ───────────────────────────────────────────────
+.miniPlayer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+  border-radius: 18px;
+  min-width: 280px;
+  max-width: min(480px, calc(100vw - 32px));
+
+  background: rgba(18, 18, 28, 0.88);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(30, 215, 96, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.miniArt {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.miniInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.miniName {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.miniArtist {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.52);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.miniProgressWrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0 0 18px 18px;
+  overflow: hidden;
+}
+
+.miniProgressBar {
+  height: 100%;
+  background: #1ed760;
+  border-radius: inherit;
+  transition: width 250ms linear;
+  box-shadow: 0 0 6px rgba(30, 215, 96, 0.6);
+}
+
+.miniStop {
+  appearance: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 10px;
+  flex-shrink: 0;
+  transition: background 140ms ease, color 140ms ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.miniLinger {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.52);
+  padding: 4px 6px;
+}
+
+// ─── Track Preview Modal ───────────────────────────────────────────────────
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 500;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 501;
+
+  width: min(420px, calc(100vw - 40px));
+  max-height: min(600px, calc(100vh - 80px));
+
+  border-radius: 24px;
+  overflow: auto;
+  padding: 32px;
+
+  background: linear-gradient(135deg, rgba(30, 215, 96, 0.08), rgba(25, 20, 40, 0.12));
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 48px rgba(0, 0, 0, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  appearance: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 140ms ease, color 140ms ease;
+  z-index: 10;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.modalArt {
+  width: 180px;
+  height: 180px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow:
+    0 8px 32px rgba(30, 215, 96, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.modalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.modalTrackName {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: -0.02em;
+}
+
+.modalArtist {
+  margin: 0;
+  font-size: 14px;
+  color: #1ed760;
+  font-weight: 500;
+}
+
+.modalAlbum {
+  margin: 0;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.modalDuration {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.36);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.modalActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.playButton,
+.spotifyButton {
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 140ms ease;
+  letter-spacing: 0.01em;
+}
+
+.playButton {
+  background: #1ed760;
+  color: rgba(0, 0, 0, 0.95);
+  box-shadow: 0 4px 16px rgba(30, 215, 96, 0.3);
+
+  &:hover {
+    background: #1dd75a;
+    box-shadow: 0 6px 24px rgba(30, 215, 96, 0.4);
+  }
+
+  &:active {
+    background: #1ac04d;
+  }
+}
+
+.spotifyButton {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────
+@media (max-width: 600px) {
+  .section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .header,
+  .nowPlayingBar,
+  .trackRow {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
