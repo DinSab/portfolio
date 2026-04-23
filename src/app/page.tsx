@@ -1,11 +1,12 @@
 import styles from "@/styles/page.module.scss";
 import { portfolio } from "@/content/portfolio";
 import Navbar from "@/components/Navbar";
-import Section from "@/components/Section";
-import ProjectCard from "@/components/ProjectCard";
 import Footer from "@/components/Footer";
 import MeSection from "@/components/MeSection";
 import ChatSection from "@/components/Chat";
+import AboutMeSection from "@/components/AboutMeSection";
+import SkillsSection from "@/components/SkillsSection";
+import SpotifySection from "@/components/SpotifySection";
 
 export default function Page() {
   return (
@@ -39,27 +40,11 @@ export default function Page() {
 
         <ChatSection id="chat" />
 
-        <Section id="about" title="About me">
-          <p className={styles.text}>{portfolio.about}</p>
-        </Section>
+        <AboutMeSection/>
 
-        <Section id="skills" title="Skills">
-          <div className={styles.chips}>
-            {portfolio.skills.map((s) => (
-              <span key={s} className={styles.chip}>
-                {s}
-              </span>
-            ))}
-          </div>
-        </Section>
+        <SkillsSection />
 
-        <Section id="projects" title="Projects">
-          <div className={styles.grid}>
-            {portfolio.projects.map((p) => (
-              <ProjectCard key={p.title} project={p} />
-            ))}
-          </div>
-        </Section>
+        <SpotifySection/>
       </main>
 
       <Footer />

@@ -1,7 +1,7 @@
 {
   "name": "Din Sabic",
   "role": "Frontend / Fullstack Developer",
-  "location": "St. Gallen, Schweiz",
+  "location": "St. Gallen",
   "intro": "Ich entwickle moderne, performante Webanwendungen mit Fokus auf React, Next.js und TypeScript.",
   "about": "Frontend-Developer mit strukturierter Herangehensweise an technisch komplexe Aufgaben. Mein Fokus liegt auf sauberem, wartbarem Code, guter UX und kollaborativer Teamarbeit. Ich arbeite gerne eng mit Stakeholdern zusammen und setze Anforderungen praxisnah um.",
   "skills": [
@@ -25,9 +25,16 @@
     "JavaScript": 4,
     "React": 4,
     "Next.js": 3,
-    "CSS": 3,
-    "Git/GitHub": 3,
-    "Jest/Vitest": 2
+    "CSS/SCSS": 4,
+    "Git": 4,
+    "GitHub": 4,
+    "SQL": 3,
+    "LeanIX Custom Reports": 3,
+    "Chart.js": 4,
+    "Redux": 3,
+    "MS SQL Server": 2,
+    "Jest": 2,
+    "Vitest": 2
   },
   "projects": [
     {
