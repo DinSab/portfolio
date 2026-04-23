@@ -157,7 +157,7 @@ export default function SpotifySection() {
     if (!audioRef.current) audioRef.current = new Audio();
     const audio = audioRef.current;
     audio.pause();
-    audio.src = track.preview_url;
+    audio.src = track.preview_url ?? "";
     audio.volume = 0.6;
     audio.play().catch(() => null);
 
