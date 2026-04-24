@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
 import type { MoodboardItem } from "@/content/moodboard";
 import styles from "@/styles/components/moodboard-modal.module.scss";
+import Image from "next/image";
 
 type MoodboardModalProps = {
   open: boolean;
@@ -101,7 +102,7 @@ export default function MoodboardModal({
             <div className={styles.masonry}>
               {items.map((item) => (
                 <article key={item.id} className={styles.card}>
-                  <img
+                  <Image
                     className={styles.image}
                     src={item.src}
                     alt={item.alt}
