@@ -4,192 +4,183 @@
   width: 100%;
 }
 
-.skillsShell {
-  width: min(100%, 900px);
-  margin: 0 auto;
-  border-radius: $radius;
-  overflow: hidden;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(16, 185, 129, 0.1));
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: $box-shadow;
+.skillsPlanetWrap {
+  padding: 0;
 }
 
-.skillsHeader {
-  padding: 16px 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.skillsKicker {
-  margin: 0;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: rgba(255, 255, 255, 0.68);
-}
-
-.skillsLead {
-  margin: 8px 0 0;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 52ch;
-}
-
-.skillsGrid {
-  list-style: none;
-  margin: 0;
-  padding: 16px 22px 22px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.skillTile {
+.planetScene {
   position: relative;
-  z-index: 0;
-  border-radius: 14px;
-  padding: 14px 16px;
+  width: min(100%, 680px);
+  height: clamp(320px, 52vw, 520px);
+  margin: 0 auto;
+  border-radius: 999px;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(76, 59, 184, 0.12), rgba(12, 18, 29, 0) 60%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: auto, 28px 28px;
+  background-position: center, center;
 
-  // Glass base — near-transparent fill, high saturation pulls colour through like real glass
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(8px) saturate(220%) brightness(1.04);
-  -webkit-backdrop-filter: blur(8px) saturate(220%) brightness(1.04);
+  &:active {
+    cursor: grabbing;
+  }
+}
 
-  // No opaque border; rim comes from inset box-shadow
-  border: 1px solid transparent;
+.planetGlow,
+.planetShell,
+.planetAtmosphere,
+.planetTerminator {
+  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  border-radius: 999px;
+  pointer-events: none;
+}
 
-  // Thin outer rim + hairline top-edge specular at 0.20 opacity (matching screenshot)
+.planetGlow {
+  width: clamp(220px, 48vw, 360px);
+  height: clamp(220px, 48vw, 360px);
+  background: radial-gradient(circle, rgba(90, 102, 255, 0.26), rgba(74, 46, 179, 0.06) 58%, transparent 72%);
+  filter: blur(22px);
+}
+
+.planetShell {
+  filter: blur(5px);
+  width: clamp(210px, 44vw, 330px);
+  height: clamp(210px, 44vw, 330px);
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.09) 44%, rgba(138, 203, 255, 0.12)),
+    radial-gradient(circle at 6% 10%, rgba(255, 255, 255, 0.315), rgba(255, 255, 255, 0.05) 38%, transparent 60%);
+  border: 1px solid rgba(227, 241, 255, 0.38);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.20),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-    0 4px 18px rgba(0, 0, 0, 0.18),
-    0 1px 3px rgba(0, 0, 0, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.52),
+    inset 0 -20px 52px rgba(9, 18, 40, 0.26),
+    inset 0 0 36px rgba(126, 199, 255, 0.18),
+    0 20px 44px rgba(7, 11, 27, 0.3);
+  backdrop-filter: blur(16px) saturate(138%);
+  -webkit-backdrop-filter: blur(16px) saturate(138%);
+  animation: shellSpin 320s linear infinite;
+}
 
-  display: flex;
+.planetAtmosphere {
+  width: clamp(220px, 45vw, 340px);
+  height: clamp(220px, 45vw, 340px);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 28% 24%, rgba(190, 206, 255, 0.2), transparent 32%),
+    radial-gradient(circle at 70% 78%, rgba(108, 220, 255, 0.14), transparent 35%);
+  box-shadow:
+    inset 0 0 0 1px rgba(175, 182, 255, 0.14),
+    0 0 26px rgba(104, 130, 255, 0.18);
+  pointer-events: none;
+}
+
+.planetTerminator {
+  width: clamp(212px, 44.5vw, 334px);
+  height: clamp(212px, 44.5vw, 334px);
+  background: linear-gradient(112deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.45) 68%, rgba(0, 0, 0, 0.58));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.skillNode {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  min-width: 50px;
+  height: 50px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(10, 13, 24, 0.72);
+  color: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 22px rgba(4, 7, 18, 0.34);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 
-  // Specular caustic at opacity 0.20 — matches screenshot setting
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background:
-      radial-gradient(
-        ellipse 65% 45% at 28% 0%,
-        rgba(255, 255, 255, 0.20) 0%,
-        rgba(255, 255, 255, 0.07) 42%,
-        transparent 68%
-      );
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  // Edge refraction shimmer — very subtle on clear glass
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      155deg,
-      transparent 50%,
-      rgba(255, 255, 255, 0.02) 65%,
-      rgba(255, 255, 255, 0.07) 82%,
-      rgba(255, 255, 255, 0.01) 100%
-    );
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  // Keep text above pseudo-elements
-  > * {
-    position: relative;
-    z-index: 2;
-  }
-
+  &:focus-visible,
   &:hover {
-    transform: translateY(-2px) scale(1.015);
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.28),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-      0 8px 24px rgba(0, 0, 0, 0.22),
-      0 2px 4px rgba(0, 0, 0, 0.10);
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.34);
+    box-shadow: 0 12px 28px rgba(4, 7, 18, 0.42);
   }
 }
 
-.stars {
-  display: flex;
-  gap: 3px;
-  flex-shrink: 0;
+.skillNodeBack {
+  pointer-events: none;
+  filter: blur(1px);
 }
 
-.starFilled {
-  font-size: 18px;
-  color: rgba(168, 85, 247, 0.95);
-  filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.5));
+.skillNodeFront {
+  pointer-events: auto;
 }
 
-.starEmpty {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.18);
-}
-
-.skillIndex {
-  min-width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
+.skillNodeText {
   font-size: 11px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.92);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
-.skillName {
-  font-size: clamp(0.95rem, 1.02vw, 1.03rem);
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.01em;
+.nodeBlue {
+  box-shadow: 0 0 0 1px rgba(91, 171, 255, 0.18), 0 10px 24px rgba(22, 74, 173, 0.34);
 }
 
-@keyframes revealSkill {
+.nodeViolet {
+  box-shadow: 0 0 0 1px rgba(179, 119, 255, 0.18), 0 10px 24px rgba(97, 36, 158, 0.34);
+}
+
+.nodeGreen {
+  box-shadow: 0 0 0 1px rgba(110, 232, 170, 0.18), 0 10px 24px rgba(26, 117, 79, 0.34);
+}
+
+.nodeOrange {
+  box-shadow: 0 0 0 1px rgba(255, 171, 98, 0.18), 0 10px 24px rgba(148, 78, 18, 0.34);
+}
+
+.nodeCyan {
+  box-shadow: 0 0 0 1px rgba(110, 232, 255, 0.18), 0 10px 24px rgba(13, 96, 122, 0.34);
+}
+
+.nodePink {
+  box-shadow: 0 0 0 1px rgba(255, 127, 181, 0.18), 0 10px 24px rgba(123, 29, 70, 0.34);
+}
+
+@keyframes shellSpin {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    transform: translate(-50%, -50%) rotateY(0deg) rotateZ(0deg);
   }
 
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%) rotateY(360deg) rotateZ(16deg);
   }
 }
 
 @media (max-width: 860px) {
-  .skillsHeader {
-    padding: 15px 16px;
+  .skillsPlanetWrap {
+    padding: 0;
   }
 
-  .skillsGrid {
-    padding: 14px 16px 18px;
-    grid-template-columns: 1fr;
-  }
-
-  .skillsShell {
-    width: 100%;
+  .planetScene {
+    height: 360px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skillTile {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+  .planetShell {
+    animation: none;
+  }
+
+  .skillNode {
+    transition: none;
   }
 }

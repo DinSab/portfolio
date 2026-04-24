@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Send, Sparkles } from "lucide-react";
+import { BriefcaseBusiness, Mail, Send, Sparkles, UserRound, Zap } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -20,10 +20,10 @@ interface ChatResponse {
 }
 
 const shortcuts = [
-  { id: 1, label: "Erzahl mir etwas uber deinen Hintergrund.", emoji: "👋" },
-  { id: 2, label: "Welche Technologien nutzt du am haufigsten?", emoji: "⚡" },
-  { id: 3, label: "Welche Projekte und Praxiserfahrung bringst du mit?", emoji: "💼" },
-  { id: 4, label: "Wie kann ich dich kontaktieren?", emoji: "📧" },
+  { id: 1, label: "Erzahl mir etwas uber deinen Hintergrund.", icon: UserRound },
+  { id: 2, label: "Welche Technologien nutzt du am haufigsten?", icon: Zap },
+  { id: 3, label: "Welche Projekte und Praxiserfahrung bringst du mit?", icon: BriefcaseBusiness },
+  { id: 4, label: "Wie kann ich dich kontaktieren?", icon: Mail },
 ];
 
 const uiText = {
@@ -335,10 +335,10 @@ export default function ChatSection({ id }: { id: string }) {
                 onClick={() => handleShortcutClick(s.label)}
                 className={styles.shortcut}
                 disabled={isLoading}
+                aria-label={s.label}
+                title={s.label}
               >
-                <span className={styles.shortcutEmoji} aria-hidden="true">
-                  {s.emoji}
-                </span>
+                <s.icon className={styles.shortcutIcon} aria-hidden="true" />
                 <span className={styles.shortcutLabel}>{s.label}</span>
               </button>
             ))}

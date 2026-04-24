@@ -3,6 +3,11 @@
 .section {
   position: relative;
   min-height: 100vh;
+
+  @media (max-width: $bp-mobile) {
+    min-height: auto;
+    padding-top: 18px;
+  }
 }
 
 .inner {
@@ -12,6 +17,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: $bp-mobile) {
+    margin-top: 0;
+    padding: 0 12px;
+  }
 }
 
 .title {
@@ -29,13 +39,18 @@
   -webkit-backdrop-filter: blur(22px);
   box-shadow: $box-shadow;
   border-radius: $radius;
-  padding: 5px 30px;
+  padding: 16px 30px 20px;
   text-align: center;
+  width: min(100%, $max-width);
 
   img {
     margin-top: 20px;
     border-radius: $radius;
     max-height: 600px;
+    width: min(100%, 360px);
+    height: auto;
+    display: block;
+    object-fit: cover;
   }
 
   h1 {
@@ -49,5 +64,109 @@
 
   i {
     font-size: 30px;
-  }  
+  }
+
+  @media (max-width: $bp-mobile) {
+    padding: 12px 18px 18px;
+
+    img {
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+  }
+}
+
+.heroMediaWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.heroImage {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.heroImageButton {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.38);
+    outline-offset: 8px;
+    border-radius: $radius;
+  }
+
+  &:hover .heroImageHint,
+  &:focus-visible .heroImageHint {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &:hover .heroImage,
+  &:focus-visible .heroImage {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+  }
+}
+
+.heroImageHint {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(12, 16, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.heroImageButton .heroImage,
+.heroImage {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+@media (max-width: $bp-mobile) {
+  .content {
+    padding: 18px 18px 22px;
+
+    h1 {
+      margin-top: 12px;
+    }
+
+    p {
+      max-width: 28ch;
+    }
+  }
+
+  .heroMediaWrap {
+    margin-bottom: 6px;
+  }
+
+  .heroImage {
+    width: 120px !important;
+    height: 120px !important;
+    margin: 0 auto;
+    border-radius: 999px !important;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center 18%;
+  }
+
+  .heroImageButton {
+    border-radius: 999px;
+  }
+
+  .heroImageHint {
+    display: none;
+  }
 }
