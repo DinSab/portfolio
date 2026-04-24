@@ -3,12 +3,18 @@
 .section {
   padding: 34px 0;
   scroll-margin-top: 60px; // tune to your header height
+
+  @media (max-width: $bp-mobile) {
+    padding: 8px 0;
+  }
 }
 
 .inner {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
+  width: min(100%, $max-width);
+  margin: 0 auto;
 }
 
 .title {

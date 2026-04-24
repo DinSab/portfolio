@@ -9,6 +9,12 @@
 .main {
   display: flex;
   flex-direction: column;
+  gap: clamp(22px, 4vw, 34px);
+
+  @media (max-width: $bp-mobile) {
+    padding-inline: 12px;
+    padding-bottom: calc($mobile-nav-height + $mobile-nav-offset + env(safe-area-inset-bottom, 0px) + 18px);
+  }
 }
 
 .macbg {
@@ -69,6 +75,11 @@
   i:hover {
     text-shadow: 0 0 5px #ffffff;
     transform: scale(1.1);    
+  }
+
+  @media (max-width: $bp-mobile) {
+    gap: 12px;
+    margin: 18px auto 10px;
   }
 }
 

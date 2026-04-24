@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SpotifyData, SpotifyTrack } from "@/app/api/spotify/route";
 import styles from "@/styles/components/spotify-section.module.scss";
+import Image from "next/image";
 
 const POLL_INTERVAL = 30_000;
 const MINI_PLAYER_LINGER = 10_000;
@@ -49,7 +50,7 @@ function TrackRow({
         aria-label={`${track.preview_url ? "Play preview" : "Open on Spotify"} of ${track.name} by ${track.artists.map((a) => a.name).join(", ")}`}
       >
         <div className={styles.trackArt}>
-          {art && <img src={art} alt={track.album.name} width={40} height={40} />}
+          {art && <Image src={art} alt={track.album.name} width={40} height={40} />}
           {isNowPlaying && (
             <span className={styles.nowPlayingDot} aria-hidden="true" />
           )}
@@ -309,7 +310,7 @@ export default function SpotifySection() {
               </button>
 
               <div className={styles.modalContent}>
-                <img
+                <Image
                   className={styles.modalArt}
                   src={modalTrack.album.images[0]?.url}
                   alt={modalTrack.album.name}
@@ -366,7 +367,7 @@ export default function SpotifySection() {
           >
             {activeTrack && (
               <>
-                <img
+                <Image
                   className={styles.miniArt}
                   src={activeTrack.album.images[2]?.url ?? activeTrack.album.images[0]?.url}
                   alt={activeTrack.album.name}

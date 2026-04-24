@@ -278,16 +278,15 @@
 
 .shortcut {
   appearance: none;
-  border: none;
   cursor: pointer;
 
-  padding: 14px 14px;
-  border-radius: 14px;
+  padding: 12px 13px;
+  border-radius: 16px;
   text-align: left;
 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.10);
@@ -318,13 +317,16 @@
   transform: translateY(0px) scale(0.99);
 }
 
-.shortcutEmoji {
-  font-size: 18px;
-  line-height: 1;
+.shortcutIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.84);
 }
 
 .shortcutLabel {
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.3;
   color: rgba(255, 255, 255, 0.78);
   transition: color 160ms ease;
 }
@@ -429,11 +431,58 @@
 
 @media (max-width: 768px) {
   .wrapper {
-    min-height: 560px;
-    height: min(680px, 82vh);
+    min-height: 540px;
+    height: auto;
+  }
+
+  .header {
+    padding: 16px 16px 14px;
+  }
+
+  .messages {
+    padding: 14px 16px;
+    min-height: 220px;
+  }
+
+  .bubble {
+    max-width: 88%;
+  }
+
+  .shortcutsWrap {
+    padding: 0 16px 12px;
   }
 
   .shortcutsGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .shortcut {
+    position: relative;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .shortcutLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .shortcutIcon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .inputWrap {
+    padding: 0 16px 16px;
   }
 }
