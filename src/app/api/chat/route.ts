@@ -1,50 +1,79 @@
 import { NextResponse } from "next/server";
 import profile from "@/data/profile.json";
 
-// Simple in-memory rate limiting (IP-based)
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-let lastCleanupAt = 0;
-
-// Sweep infrequently to keep per-request overhead low while preventing unbounded growth.
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_CLEANUP_INTERVAL_MS = 60_000;
 
-function cleanupExpiredRateLimitEntries(now: number): void {
-  if (now - lastCleanupAt < RATE_LIMIT_CLEANUP_INTERVAL_MS) return;
+type RateLimitStore = Map<string, number[]>;
 
-  for (const [key, record] of rateLimitMap.entries()) {
-    if (now > record.resetTime) {
-      rateLimitMap.delete(key);
+declare global {
+  var __chatRateLimitStore: RateLimitStore | undefined;
+  var __chatRateLimitCleanupTimer: ReturnType<typeof setInterval> | undefined;
+}
+
+const rateLimitStore: RateLimitStore = globalThis.__chatRateLimitStore ?? new Map<string, number[]>();
+globalThis.__chatRateLimitStore = rateLimitStore;
+
+function pruneExpiredRequests(now: number, requests: number[]): number[] {
+  const windowStart = now - RATE_LIMIT_WINDOW_MS;
+  return requests.filter((timestamp) => timestamp > windowStart);
+}
+
+function cleanupExpiredRateLimitEntries(): void {
+  const now = Date.now();
+
+  for (const [key, requests] of rateLimitStore.entries()) {
+    const activeRequests = pruneExpiredRequests(now, requests);
+    if (activeRequests.length === 0) {
+      rateLimitStore.delete(key);
+      continue;
     }
-  }
 
-  lastCleanupAt = now;
+    rateLimitStore.set(key, activeRequests);
+  }
+}
+
+function ensureRateLimitCleanupInterval(): void {
+  if (globalThis.__chatRateLimitCleanupTimer) return;
+
+  globalThis.__chatRateLimitCleanupTimer = setInterval(
+    cleanupExpiredRateLimitEntries,
+    RATE_LIMIT_CLEANUP_INTERVAL_MS
+  );
 }
 
 function getRateLimitKey(req: Request): string {
   const forwarded = req.headers.get("x-forwarded-for");
-  if (forwarded) {
-    // May contain multiple IPs: "client, proxy1, proxy2"
-    return forwarded.split(",")[0].trim();
+  const firstForwarded = forwarded?.split(",")[0]?.trim();
+
+  if (firstForwarded) {
+    return firstForwarded;
   }
 
-  return req.headers.get("x-real-ip") || "unknown";
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+
+  const cfIp = req.headers.get("cf-connecting-ip")?.trim();
+  if (cfIp) return cfIp;
+
+  return "unknown-ip";
 }
 
-function checkRateLimit(ip: string, maxRequests = 10, windowMs = 60_000): boolean {
+function checkRateLimit(ip: string): { allowed: true } | { allowed: false; retryAfterSec: number } {
   const now = Date.now();
-  cleanupExpiredRateLimitEntries(now);
+  const existingRequests = rateLimitStore.get(ip) ?? [];
+  const activeRequests = pruneExpiredRequests(now, existingRequests);
 
-  const record = rateLimitMap.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
-    return true;
+  if (activeRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
+    const oldestRequestTs = activeRequests[0];
+    const retryAfterMs = Math.max(0, oldestRequestTs + RATE_LIMIT_WINDOW_MS - now);
+    return { allowed: false, retryAfterSec: Math.max(1, Math.ceil(retryAfterMs / 1000)) };
   }
 
-  if (record.count >= maxRequests) return false;
-
-  record.count++;
-  return true;
+  activeRequests.push(now);
+  rateLimitStore.set(ip, activeRequests);
+  return { allowed: true };
 }
 
 function formatList(items: string[]): string {
@@ -103,11 +132,23 @@ function createFallbackAnswer(question: string): string {
 
 export async function POST(req: Request) {
   try {
+    ensureRateLimitCleanupInterval();
+
     const ip = getRateLimitKey(req);
-    if (!checkRateLimit(ip, 10, 60_000)) {
+    const rateLimitResult = checkRateLimit(ip);
+
+    if (!rateLimitResult.allowed) {
       return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        { status: 429 }
+        {
+          error: "Too many requests. Please try again later.",
+          retryAfter: rateLimitResult.retryAfterSec,
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": rateLimitResult.retryAfterSec.toString(),
+          },
+        }
       );
     }
 

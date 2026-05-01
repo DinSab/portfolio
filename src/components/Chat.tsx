@@ -17,6 +17,7 @@ interface Message {
 interface ChatResponse {
   answer?: string;
   error?: string;
+  retryAfter?: number;
 }
 
 const shortcuts = [
@@ -62,6 +63,37 @@ function getFallbackError(status: number, language: "de" | "en"): string {
   if (status === 429) return uiText[language].rateLimitError;
   if (status >= 500) return uiText[language].serverError;
   return uiText[language].genericError;
+}
+
+function getRateLimitError(language: "de" | "en", retryAfterSeconds?: number): string {
+  if (!retryAfterSeconds || Number.isNaN(retryAfterSeconds) || retryAfterSeconds <= 0) {
+    return uiText[language].rateLimitError;
+  }
+
+  const minutes = Math.floor(retryAfterSeconds / 60);
+  const seconds = retryAfterSeconds % 60;
+
+  if (language === "de") {
+    if (minutes > 0 && seconds > 0) {
+      return `Zu viele Anfragen. Bitte versuche es in ${minutes} Min ${seconds} Sek erneut.`;
+    }
+
+    if (minutes > 0) {
+      return `Zu viele Anfragen. Bitte versuche es in ${minutes} Min erneut.`;
+    }
+
+    return `Zu viele Anfragen. Bitte versuche es in ${seconds} Sek erneut.`;
+  }
+
+  if (minutes > 0 && seconds > 0) {
+    return `Too many requests. Please try again in ${minutes} min ${seconds} sec.`;
+  }
+
+  if (minutes > 0) {
+    return `Too many requests. Please try again in ${minutes} min.`;
+  }
+
+  return `Too many requests. Please try again in ${seconds} sec.`;
 }
 
 function TypewriterMarkdown({
@@ -170,6 +202,15 @@ export default function ChatSection({ id }: { id: string }) {
       const data = (await response.json()) as ChatResponse;
 
       if (!response.ok) {
+        if (response.status === 429) {
+          const retryAfterHeader = response.headers.get("Retry-After");
+          const retryAfterSeconds = retryAfterHeader
+            ? Number.parseInt(retryAfterHeader, 10)
+            : data.retryAfter;
+
+          throw new Error(getRateLimitError(language, retryAfterSeconds));
+        }
+
         throw new Error(data.error || getFallbackError(response.status, language));
       }
 
