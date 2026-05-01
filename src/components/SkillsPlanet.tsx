@@ -97,13 +97,15 @@ export default function SkillsPlanet({
   const nodes = useMemo(() => buildNodes(skills), [skills]);
   const points = useMemo(() => createSpherePoints(nodes.length), [nodes.length]);
 
-  const [rotation, setRotation] = useState({ x: -0.28, y: 0.44 });
   const [isCompact, setIsCompact] = useState(false);
 
   const draggingRef = useRef(false);
   const lastPointRef = useRef({ x: 0, y: 0 });
   const targetRotationRef = useRef({ x: -0.28, y: 0.44 });
   const currentRotationRef = useRef({ x: -0.28, y: 0.44 });
+  const backNodeRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const frontNodeRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const frontVisibleRef = useRef<boolean[]>([]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 640px)");
@@ -124,42 +126,57 @@ export default function SkillsPlanet({
       currentRotationRef.current.x += (targetRotationRef.current.x - currentRotationRef.current.x) * 0.18;
       currentRotationRef.current.y += (targetRotationRef.current.y - currentRotationRef.current.y) * 0.18;
 
-      setRotation({
-        x: currentRotationRef.current.x,
-        y: currentRotationRef.current.y,
-      });
+      const sphereRadius = isCompact ? 118 : 176;
+      const perspective = isCompact ? 360 : 520;
+
+      for (let index = 0; index < nodes.length; index += 1) {
+        const point = points[index];
+        const node = nodes[index];
+        const backEl = backNodeRefs.current[index];
+        const frontEl = frontNodeRefs.current[index];
+
+        if (!point || !node || !backEl || !frontEl) {
+          continue;
+        }
+
+        const rotated = rotatePoint(point, currentRotationRef.current.x, currentRotationRef.current.y);
+        const depth = (rotated.z + 1) / 2;
+        const scale = perspective / (perspective - rotated.z * sphereRadius * 0.9);
+        const left = rotated.x * sphereRadius * scale;
+        const top = rotated.y * sphereRadius * scale;
+        const transform = `translate3d(${left}px, ${top}px, 0) scale(${0.72 + depth * 0.46})`;
+        const opacity = `${0.32 + depth * 0.68}`;
+        const zIndex = `${Math.round(depth * 100)}`;
+        const isFront = depth >= 0.5;
+
+        backEl.style.transform = transform;
+        backEl.style.opacity = isFront ? "0" : opacity;
+        backEl.style.zIndex = zIndex;
+
+        frontEl.style.transform = transform;
+        frontEl.style.opacity = isFront ? opacity : "0";
+        frontEl.style.zIndex = zIndex;
+
+        if (frontVisibleRef.current[index] !== isFront) {
+          frontVisibleRef.current[index] = isFront;
+          frontEl.style.pointerEvents = isFront ? "auto" : "none";
+          frontEl.tabIndex = isFront ? 0 : -1;
+          frontEl.setAttribute("aria-hidden", isFront ? "false" : "true");
+        }
+      }
 
       frame = window.requestAnimationFrame(animate);
     };
 
     frame = window.requestAnimationFrame(animate);
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [isCompact, nodes, points]);
 
-  const sphereRadius = isCompact ? 118 : 176;
-  const perspective = isCompact ? 360 : 520;
-  const projectedNodes = useMemo(
-    () =>
-      nodes.map((node, index) => {
-        const rotated = rotatePoint(points[index], rotation.x, rotation.y);
-        const depth = (rotated.z + 1) / 2;
-        const scale = perspective / (perspective - rotated.z * sphereRadius * 0.9);
-
-        return {
-          ...node,
-          depth,
-          left: rotated.x * sphereRadius * scale,
-          top: rotated.y * sphereRadius * scale,
-          scale: 0.72 + depth * 0.46,
-          opacity: 0.32 + depth * 0.68,
-          zIndex: Math.round(depth * 100),
-        };
-      }),
-    [nodes, points, rotation.x, rotation.y, sphereRadius, perspective]
-  );
-
-  const backNodes = useMemo(() => projectedNodes.filter((node) => node.depth < 0.5), [projectedNodes]);
-  const frontNodes = useMemo(() => projectedNodes.filter((node) => node.depth >= 0.5), [projectedNodes]);
+  useEffect(() => {
+    frontVisibleRef.current = new Array(nodes.length).fill(true);
+    backNodeRefs.current = backNodeRefs.current.slice(0, nodes.length);
+    frontNodeRefs.current = frontNodeRefs.current.slice(0, nodes.length);
+  }, [nodes.length]);
 
   return (
     <div className={styles.skillsPlanetWrap}>
@@ -168,7 +185,9 @@ export default function SkillsPlanet({
         onPointerDown={(event) => {
           draggingRef.current = true;
           lastPointRef.current = { x: event.clientX, y: event.clientY };
-          event.currentTarget.setPointerCapture(event.pointerId);
+          if (event.currentTarget.hasPointerCapture?.(event.pointerId) === false) {
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }
         }}
         onPointerMove={(event) => {
           if (!draggingRef.current) return;
@@ -185,21 +204,27 @@ export default function SkillsPlanet({
         }}
         onPointerUp={(event) => {
           draggingRef.current = false;
-          event.currentTarget.releasePointerCapture(event.pointerId);
+          if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
+        }}
+        onPointerCancel={(event) => {
+          draggingRef.current = false;
+          if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
         }}
         onPointerLeave={() => {
           draggingRef.current = false;
         }}
       >
-        {backNodes.map((node) => (
+        {nodes.map((node, index) => (
           <span
-            key={node.skill}
-            className={`${styles.skillNode} ${styles.skillNodeBack} ${styles[node.colorClass]}`}
-            style={{
-              transform: `translate3d(${node.left}px, ${node.top}px, 0) scale(${node.scale})`,
-              opacity: node.opacity,
-              zIndex: node.zIndex,
+            key={`back-${node.skill}`}
+            ref={(element) => {
+              backNodeRefs.current[index] = element;
             }}
+            className={`${styles.skillNode} ${styles.skillNodeBack} ${styles[node.colorClass]}`}
             aria-hidden="true"
           >
             <span className={styles.skillNodeText}>{node.shortLabel}</span>
@@ -211,17 +236,21 @@ export default function SkillsPlanet({
         <div className={styles.planetAtmosphere} aria-hidden="true" />
         <div className={styles.planetTerminator} aria-hidden="true" />
 
-        {frontNodes.map((node) => (
+        {nodes.map((node, index) => (
           <button
-            key={node.skill}
+            key={`front-${node.skill}`}
             type="button"
+            ref={(element) => {
+              frontNodeRefs.current[index] = element;
+            }}
             className={`${styles.skillNode} ${styles.skillNodeFront} ${styles[node.colorClass]}`}
             style={{
-              transform: `translate3d(${node.left}px, ${node.top}px, 0) scale(${node.scale})`,
-              opacity: node.opacity,
-              zIndex: node.zIndex,
+              opacity: 0,
+              pointerEvents: "none",
             }}
             aria-label={node.skill}
+            aria-hidden="true"
+            tabIndex={-1}
           >
             <span className={styles.skillNodeText}>{node.shortLabel}</span>
           </button>
