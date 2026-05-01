@@ -5,6 +5,7 @@ import MeSection from "@/components/MeSection";
 import HeroIntro from "@/components/HeroIntro";
 import ChatSection from "@/components/Chat";
 import AboutMeSection from "@/components/AboutMeSection";
+import WorkExperienceTimeline from "@/components/WorkExperienceTimeline";
 import SkillsSection from "@/components/SkillsSection";
 import SpotifySection from "@/components/SpotifySection";
 
@@ -23,6 +24,8 @@ export default function Page() {
         <ChatSection id="chat" />
 
         <AboutMeSection/>
+
+        <WorkExperienceTimeline />
 
         <SkillsSection />
 
