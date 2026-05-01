@@ -81,6 +81,7 @@
       "location": "St. Gallen",
       "start": "2024-08",
       "end": "2025-07",
+      "shortDescription": "Entwicklung einer internen Reporting-Losung mit React, TypeScript und Chart.js sowie Mitarbeit an einer Webapplikation mit Admin-Interface.",
       "responsibilities": [
         "Developed a LeanIX report with React, Chart.js, and TypeScript.",
         "Contributed to the further development of a web application including an admin interface.",
@@ -112,6 +113,7 @@
       "location": "Schweiz",
       "start": "2026-01",
       "end": "2026-02",
+      "shortDescription": "Optimierung und Weiterentwicklung einer Shopify-Unternehmenswebsite inklusive Bugfixing, Sicherheitsreview und Performance-Analyse.",
       "responsibilities": [
         "Worked on the company website.",
         "Reviewed and documented security issues.",
@@ -126,6 +128,28 @@
         "Exceeded expectations during the practical assignment according to the certificate."
       ],
       "technologies": ["Shopify", "Figma"]
+    },
+    {
+      "title": "IMS Praktikant / Web",
+      "company": "Vermando AG",
+      "location": "Herisau",
+      "start": "2022-09",
+      "end": "2022-10",
+      "shortDescription": "Obligatorisches 4-wochiges IMS-Berufspraktikum: Website-Anpassungen, manuelles Testen, Software-Updates und CMS-Datenpflege.",
+      "responsibilities": [
+        "Made simple adjustments to the company website.",
+        "Manually tested products.",
+        "Updated software modules.",
+        "Monitored and maintained infrastructure.",
+        "Updated data in the CMS."
+      ],
+      "highlights": [
+        "Impressed the team with fast comprehension and exceptionally high autonomy.",
+        "Assessed as having strong potential for application development.",
+        "Rated as exceeding expectations in self-initiative, reliability, and professional conduct.",
+        "Completed all assigned tasks punctually and independently with no absences."
+      ],
+      "technologies": ["HTML", "CSS", "JavaScript", "CMS"]
     }
   ],
   "education": [

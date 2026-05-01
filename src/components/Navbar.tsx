@@ -7,6 +7,7 @@ const links = [
   { href: "#home", label: "Home", icon: "fa-solid fa-house" },
   { href: "#chat", label: "Chat", icon: "fa-solid fa-comments" },
   { href: "#about", label: "About", icon: "fa-solid fa-address-card" },
+  { href: "#experience", label: "Experience", icon: "fa-solid fa-briefcase" },
   { href: "#skills", label: "Skills", icon: "fa-solid fa-code" },
   { href: "#spotify", label: "Spotify", icon: "fa-brands fa-spotify" },
 ];
