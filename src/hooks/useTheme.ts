@@ -1,36 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 
 type Theme = "light" | "dark";
 
 const THEME_KEY = "theme";
 
-function getSystemTheme(): Theme {
-  if (typeof window === "undefined") return "dark";
+// ─── External store ───────────────────────────────────────────────────────────
+
+function readClientTheme(): Theme {
+  const stored = window.localStorage.getItem(THEME_KEY);
+  if (stored === "light" || stored === "dark") return stored;
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
-function getStoredTheme(): Theme | null {
-  if (typeof window === "undefined") return null;
-  const stored = window.localStorage.getItem(THEME_KEY);
-  return stored === "light" || stored === "dark" ? stored : null;
+// Stable server snapshot — always "dark" so SSR output never mismatches.
+function readServerTheme(): Theme {
+  return "dark";
 }
 
-export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const stored = getStoredTheme();
-    return stored ?? getSystemTheme();
-  });
+const themeListeners = new Set<() => void>();
 
+function subscribeToTheme(callback: () => void): () => void {
+  themeListeners.add(callback);
+  return () => themeListeners.delete(callback);
+}
+
+function broadcastTheme(): void {
+  themeListeners.forEach((fn) => fn());
+}
+
+// ─── Hook ─────────────────────────────────────────────────────────────────────
+
+export function useTheme() {
+  // useSyncExternalStore: server render uses readServerTheme ("dark"),
+  // client hydration matches that, then re-renders with the real value.
+  // No setState inside an effect — no lint violation, no hydration mismatch.
+  const theme = useSyncExternalStore(
+    subscribeToTheme,
+    readClientTheme,
+    readServerTheme,
+  );
+
+  // Sync the DOM attribute whenever the resolved theme changes.
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((current) => (current === "light" ? "dark" : "light"));
-  };
+  const toggleTheme = useCallback(() => {
+    const next: Theme = theme === "light" ? "dark" : "light";
+    window.localStorage.setItem(THEME_KEY, next);
+    // Apply eagerly to the DOM before React re-renders.
+    document.documentElement.dataset.theme = next;
+    broadcastTheme();
+  }, [theme]);
 
   return { theme, toggleTheme };
 }

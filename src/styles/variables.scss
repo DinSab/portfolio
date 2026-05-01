@@ -1,21 +1,21 @@
 @mixin theme-tokens {
-	:root {
-		--bg: #0b0c10;
-		--text: #ffffff;
-		--muted: rgba(255, 255, 255, 0.8);
-		--card: rgba(255, 255, 255, 0.04);
-		--border: rgba(255, 255, 255, 0.12);
-		--box-shadow: 0 0 15px 0px rgba(255, 255, 255, 0.25), 0 0 5px rgba(255, 255, 255, 0.45) inset;
-	}
+  :root {
+    --bg: #0b0c10;
+    --text: #ffffff;
+    --muted: rgba(255, 255, 255, 0.8);
+    --card: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.12);
+    --box-shadow: 0 0 15px 0px rgba(255, 255, 255, 0.25), 0 0 5px rgba(255, 255, 255, 0.45) inset;
+  }
 
-	[data-theme="light"] {
-		--bg: #f2f3f7;
-		--text: #0d0d0f;
-		--muted: rgba(0, 0, 0, 0.6);
-		--card: rgba(255, 255, 255, 0.72);
-		--border: rgba(0, 0, 0, 0.1);
-		--box-shadow: 0 0 18px rgba(0, 0, 0, 0.1), 0 0 6px rgba(0, 0, 0, 0.06) inset;
-	}
+  [data-theme="light"] {
+    --bg: #f2f3f7;
+    --text: #0d0d0f;
+    --muted: rgba(0, 0, 0, 0.6);
+    --card: rgba(255, 255, 255, 0.72);
+    --border: rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 0 18px rgba(0, 0, 0, 0.1), 0 0 6px rgba(0, 0, 0, 0.06) inset;
+  }
 }
 
 $bg: var(--bg);
@@ -34,3 +34,4 @@ $bp-tablet: 860px;
 $bp-mobile: 640px;
 $mobile-nav-height: 64px;
 $mobile-nav-offset: 14px;
+$nav-scroll-margin: 86px;

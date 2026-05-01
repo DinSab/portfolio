@@ -47,6 +47,10 @@ async function getAccessToken(): Promise<string> {
     cache: "no-store",
   });
 
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Spotify token error ${res.status}: ${text}`);
+  }
   const data = await res.json() as { access_token: string };
   return data.access_token;
 }
@@ -83,6 +87,25 @@ export async function GET() {
       };
       isPlaying = npData.is_playing;
       nowPlaying = npData.item;
+    } else if (nowPlayingRes.status === 429) {
+      const retryAfter = nowPlayingRes.headers.get("Retry-After") ?? "60";
+      return NextResponse.json(
+        { error: "Spotify rate limit reached" },
+        { status: 429, headers: { "Retry-After": retryAfter } }
+      );
+    } else if (nowPlayingRes.status !== 204) {
+      throw new Error(`Spotify currently-playing error ${nowPlayingRes.status}`);
+    }
+
+    if (recentlyPlayedRes.status === 429) {
+      const retryAfter = recentlyPlayedRes.headers.get("Retry-After") ?? "60";
+      return NextResponse.json(
+        { error: "Spotify rate limit reached" },
+        { status: 429, headers: { "Retry-After": retryAfter } }
+      );
+    }
+    if (!recentlyPlayedRes.ok) {
+      throw new Error(`Spotify recently-played error ${recentlyPlayedRes.status}`);
     }
 
     const rpData = await recentlyPlayedRes.json() as {
@@ -103,7 +126,9 @@ export async function GET() {
       { nowPlaying, isPlaying, recentlyPlayed } satisfies SpotifyData,
       {
         headers: {
-          "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
+          // Cache at the edge for 60 s; serve stale for up to 5 min while revalidating.
+          // This means many concurrent visitors share one upstream Spotify call.
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
         },
       }
     );

@@ -2,7 +2,7 @@
 
 .section {
   padding: 34px 0;
-  scroll-margin-top: 60px;
+  scroll-margin-top: $nav-scroll-margin;
   max-width: $max-width;
   margin: 0 auto;
   width: 100%;
