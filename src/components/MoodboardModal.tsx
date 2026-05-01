@@ -106,6 +106,9 @@ export default function MoodboardModal({
                     className={styles.image}
                     src={item.src}
                     alt={item.alt}
+                    width={item.width}
+                    height={item.height}
+                    sizes="(max-width: 900px) 50vw, 33vw"
                     loading="lazy"
                     decoding="async"
                   />
