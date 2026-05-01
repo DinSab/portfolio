@@ -128,3 +128,61 @@
     scroll-behavior: auto;
   }
 }
+
+:global([data-theme="light"]) {
+  .backdrop {
+    background: rgba(236, 241, 252, 0.64);
+    backdrop-filter: blur(16px) saturate(115%);
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+  }
+
+  .dialog {
+    border-color: rgba(20, 26, 42, 0.12);
+    background: linear-gradient(145deg, rgba(250, 252, 255, 0.9), rgba(240, 245, 255, 0.82));
+    box-shadow:
+      0 24px 66px rgba(35, 42, 63, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  }
+
+  .dialog::-webkit-scrollbar-thumb {
+    background: rgba(20, 26, 42, 0.18);
+    border: 3px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+  }
+
+  .dialog::-webkit-scrollbar-thumb:hover {
+    background: rgba(20, 26, 42, 0.26);
+    border: 3px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+  }
+
+  .kicker {
+    color: rgba(18, 22, 34, 0.56);
+  }
+
+  .title {
+    color: rgba(11, 14, 22, 0.92);
+  }
+
+  .description {
+    color: rgba(18, 22, 34, 0.68);
+  }
+
+  .closeButton {
+    border-color: rgba(20, 26, 42, 0.14);
+    background: rgba(255, 255, 255, 0.6);
+    color: rgba(11, 14, 22, 0.9);
+
+    &:focus-visible,
+    &:hover {
+      border-color: rgba(20, 26, 42, 0.24);
+      background: rgba(255, 255, 255, 0.78);
+    }
+  }
+
+  .card {
+    box-shadow:
+      0 12px 26px rgba(34, 42, 64, 0.16),
+      0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  }
+}

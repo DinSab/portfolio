@@ -99,3 +99,31 @@
     padding: 18px 16px;
   }
 }
+
+:global([data-theme="light"]) {
+  .aboutShell {
+    background: linear-gradient(135deg, rgba(255, 187, 211, 0.24), rgba(167, 242, 218, 0.24));
+    border: 1px solid rgba(20, 26, 42, 0.1);
+    box-shadow: 0 22px 34px rgba(40, 46, 64, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+
+  .aboutHeader {
+    border-bottom-color: rgba(20, 26, 42, 0.1);
+  }
+
+  .aboutKicker,
+  .aboutRole,
+  .aboutText {
+    color: rgba(18, 20, 28, 0.66);
+  }
+
+  .aboutLead {
+    color: rgba(11, 13, 20, 0.94);
+  }
+
+  .aboutTags span {
+    color: rgba(18, 20, 28, 0.78);
+    border-color: rgba(20, 26, 42, 0.14);
+    background: rgba(255, 255, 255, 0.46);
+  }
+}

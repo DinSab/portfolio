@@ -2,7 +2,7 @@
 
 .section {
   padding: 34px 0;
-  scroll-margin-top: 60px; // tune to your header height
+  scroll-margin-top: 86px; // avoids sticky navbar overlap on anchor navigation
 
   @media (max-width: $bp-mobile) {
     padding: 8px 0;

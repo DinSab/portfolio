@@ -535,3 +535,61 @@
     padding-right: 14px;
   }
 }
+
+:global([data-theme="light"]) {
+  .shell {
+    background: linear-gradient(135deg, rgba(176, 245, 202, 0.26), rgba(208, 228, 255, 0.24));
+    border-color: rgba(20, 26, 42, 0.1);
+    box-shadow: 0 20px 34px rgba(40, 46, 64, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  }
+
+  .header,
+  .nowPlayingBar {
+    border-bottom-color: rgba(20, 26, 42, 0.1);
+  }
+
+  .kicker,
+  .trackName,
+  .miniName,
+  .modalTrackName {
+    color: rgba(10, 12, 18, 0.9);
+  }
+
+  .lead,
+  .trackArtist,
+  .miniArtist,
+  .modalAlbum,
+  .miniLinger,
+  .previewHint,
+  .empty,
+  .trackDuration,
+  .modalDuration {
+    color: rgba(14, 18, 28, 0.6);
+  }
+
+  .trackRow[role="button"]:hover {
+    background: rgba(18, 24, 38, 0.06);
+  }
+
+  .trackArt,
+  .spotifyButton,
+  .closeButton,
+  .miniStop,
+  .miniProgressWrap {
+    background: rgba(255, 255, 255, 0.58);
+    color: rgba(14, 18, 28, 0.76);
+    border-color: rgba(20, 26, 42, 0.12);
+    box-shadow: none;
+  }
+
+  .miniPlayer,
+  .modal {
+    background: rgba(246, 249, 255, 0.88);
+    border-color: rgba(20, 26, 42, 0.14);
+    box-shadow: 0 14px 28px rgba(20, 26, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  }
+
+  .modalBackdrop {
+    background: rgba(32, 38, 54, 0.22);
+  }
+}

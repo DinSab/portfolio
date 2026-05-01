@@ -1,5 +1,7 @@
 @use "@/styles/variables.scss" as *;
 
+@include theme-tokens;
+
 * { box-sizing: border-box; }
 html, body { padding: 0; margin: 0; }
 html {

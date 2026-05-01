@@ -60,6 +60,27 @@
   }
 }
 
+:global([data-theme="light"]) .macbg {
+  background: radial-gradient(1200px 700px at 20% 30%, rgba(255, 164, 196, 0.52), transparent 60%),
+              radial-gradient(900px 650px at 80% 35%, rgba(185, 172, 255, 0.5), transparent 60%),
+              radial-gradient(1000px 800px at 50% 85%, rgba(158, 236, 210, 0.44), transparent 62%),
+              linear-gradient(120deg, #fbfcff, #f2f3f7);
+
+  &::before,
+  &::after {
+    background:
+      radial-gradient(closest-side, rgba(255, 168, 204, 0.34), transparent 70%) 15% 30% / 55% 55% no-repeat,
+      radial-gradient(closest-side, rgba(184, 172, 255, 0.32), transparent 70%) 85% 25% / 50% 50% no-repeat,
+      radial-gradient(closest-side, rgba(158, 236, 210, 0.26), transparent 72%) 55% 90% / 60% 60% no-repeat;
+    filter: blur(28px) saturate(110%);
+  }
+
+  &::after {
+    opacity: 0.72;
+    filter: blur(48px) saturate(120%);
+  }
+}
+
 .links {
   align-items: center;
   justify-content: center;
