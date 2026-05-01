@@ -14,7 +14,7 @@
     "framer-motion": "^12.35.0",
     "lucide-react": "^0.575.0",
     "motion": "^12.34.4",
-    "next": "16.1.6",
+    "next": "^16.2.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-markdown": "^10.1.0",
@@ -27,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "playwright": "^1.59.1",
     "sass": "^1.97.3",
     "tailwindcss": "^4",
     "typescript": "^5"
