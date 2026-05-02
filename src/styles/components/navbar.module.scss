@@ -24,6 +24,7 @@
   justify-content: center;
 
   @media (max-width: $bp-mobile) {
+    width: 100%;
     max-width: none;
     padding: 0 12px calc($mobile-nav-offset + env(safe-area-inset-bottom, 0px));
   }
@@ -44,10 +45,14 @@
 
   @media (max-width: $bp-mobile) {
     pointer-events: auto;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0;
     flex-wrap: nowrap;
-    width: min(100%, 420px);
-    justify-content: space-between;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    justify-content: initial;
     padding: 8px;
     border: 1px solid rgba(255, 255, 255, 0.16);
     background: rgba(18, 22, 33, 0.62);
@@ -82,7 +87,9 @@
   }
 
   @media (max-width: $bp-mobile) {
+    width: auto;
     height: 48px;
+    min-width: 0;
   }
 }
 
