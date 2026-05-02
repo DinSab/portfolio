@@ -31,8 +31,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 8px 0;
+  gap: 20px;
+  padding: 12px 0;
 
   &::before {
     content: "";
@@ -54,6 +54,7 @@
 .item {
   width: 50%;
   position: relative;
+  z-index: 1;
 }
 
 .itemLeft {
@@ -97,9 +98,16 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 18px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-  backdrop-filter: blur(10px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
   padding: 16px 18px;
-  box-shadow: 0 24px 42px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 22px 38px rgba(0, 0, 0, 0.26), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 28px 48px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    border-color: rgba(255, 255, 255, 0.26);
+  }
 }
 
 .topRow {
@@ -180,5 +188,42 @@
 
   .dates {
     white-space: normal;
+  }
+}
+
+:global([data-theme="light"]) {
+  .kicker {
+    color: rgba(16, 18, 26, 0.56);
+  }
+
+  .timeline::before {
+    background: linear-gradient(180deg, rgba(14, 18, 30, 0.12), rgba(14, 18, 30, 0.26), rgba(14, 18, 30, 0.14));
+  }
+
+  .dot {
+    box-shadow: 0 0 0 4px rgba(242, 243, 247, 0.94), 0 0 14px rgba(255, 145, 190, 0.42);
+  }
+
+  .card {
+    border-color: rgba(18, 22, 34, 0.12);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.66), rgba(244, 248, 255, 0.5));
+    box-shadow: 0 20px 34px rgba(24, 30, 44, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.38) inset;
+
+    &:hover {
+      box-shadow: 0 28px 42px rgba(24, 30, 44, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.48) inset;
+      border-color: rgba(18, 22, 34, 0.16);
+    }
+  }
+
+  .dates {
+    color: rgba(18, 20, 28, 0.56);
+  }
+
+  .role {
+    color: rgba(18, 20, 28, 0.78);
+  }
+
+  .description {
+    color: rgba(18, 20, 28, 0.74);
   }
 }

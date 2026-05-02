@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { Moon, Sun } from "lucide-react";
 import styles from "@/styles/components/navbar.module.scss";
+import { useTheme } from "@/hooks/useTheme";
 
 const links = [
   { href: "#home", label: "Home", icon: "fa-solid fa-house" },
@@ -13,6 +15,7 @@ const links = [
 ];
 
 export default function Navbar() {
+  const { theme, toggleTheme } = useTheme();
   const innerRef = useRef<HTMLDivElement | null>(null);
   const indicatorRef = useRef<HTMLSpanElement | null>(null);
 
@@ -159,24 +162,36 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={styles.header}>
-      <nav className={styles.nav}>
-        <div className={styles.links} ref={innerRef}>
-          {links.map((l) => (
-            <a
-              key={l.href}
-              className={styles.link}
-              href={l.href}
-              data-target={l.href.replace("#", "")}
-              aria-label={l.label}
-            >
-              <i className={l.icon} aria-hidden="true" />
-              <span className={styles.linkLabel}>{l.label}</span>
-            </a>
-          ))}
-          <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
-        </div>
-      </nav>
-    </header>
+    <>
+      <header className={styles.header}>
+        <nav className={styles.nav}>
+          <div className={styles.links} ref={innerRef}>
+            {links.map((l) => (
+              <a
+                key={l.href}
+                className={styles.link}
+                href={l.href}
+                data-target={l.href.replace("#", "")}
+                aria-label={l.label}
+              >
+                <i className={l.icon} aria-hidden="true" />
+                <span className={styles.linkLabel}>{l.label}</span>
+              </a>
+            ))}
+            <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
+          </div>
+        </nav>
+      </header>
+
+      <button
+        type="button"
+        className={styles.themeToggleFloating}
+        onClick={toggleTheme}
+        aria-label={theme === "light" ? "Switch to dark theme" : "Switch to light theme"}
+        title={theme === "light" ? "Switch to dark theme" : "Switch to light theme"}
+      >
+        {theme === "light" ? <Moon size={18} aria-hidden="true" /> : <Sun size={18} aria-hidden="true" />}
+      </button>
+    </>
   );
 }

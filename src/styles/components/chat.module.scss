@@ -486,3 +486,74 @@
     padding: 0 16px 16px;
   }
 }
+
+:global([data-theme="light"]) {
+  .shell {
+    background: linear-gradient(135deg, rgba(194, 182, 255, 0.24), rgba(183, 241, 226, 0.24));
+    border-color: rgba(20, 26, 42, 0.12);
+    box-shadow: 0 20px 34px rgba(40, 46, 64, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  }
+
+  .header {
+    border-bottom-color: rgba(20, 26, 42, 0.1);
+  }
+
+  .title {
+    color: rgba(10, 12, 18, 0.9);
+  }
+
+  .subtitle,
+  .emptyText,
+  .shortcutLabel,
+  .input::placeholder {
+    color: rgba(14, 18, 28, 0.56);
+  }
+
+  .emptyTitle,
+  .bubbleUser,
+  .bubbleAi,
+  .input,
+  .sendIcon {
+    color: rgba(11, 14, 22, 0.86);
+  }
+
+  .typewriterCaret {
+    background: rgba(11, 14, 22, 0.72);
+  }
+
+  .emptyIconWrap,
+  .shortcut,
+  .inputShell,
+  .sendBtn {
+    background: rgba(255, 255, 255, 0.54);
+    border-color: rgba(20, 26, 42, 0.12);
+  }
+
+  .bubbleUser {
+    background: rgba(255, 255, 255, 0.62);
+    border-color: rgba(20, 26, 42, 0.12);
+  }
+
+  .bubbleAi {
+    background: rgba(201, 183, 255, 0.34);
+    border-color: rgba(143, 118, 231, 0.22);
+  }
+
+  .markdown strong {
+    color: rgba(11, 14, 22, 0.92);
+  }
+
+  .markdown code,
+  .markdown pre,
+  .markdown blockquote {
+    background: rgba(255, 255, 255, 0.5);
+    color: rgba(14, 18, 28, 0.76);
+    border-left-color: rgba(20, 26, 42, 0.18);
+  }
+
+  .shortcutIcon,
+  .messages::-webkit-scrollbar-thumb,
+  .sendBtnActive {
+    color: rgba(26, 34, 52, 0.74);
+  }
+}

@@ -192,3 +192,59 @@
     transition: none;
   }
 }
+
+:global([data-theme="light"]) {
+  .planetScene {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(158, 126, 255, 0.1), rgba(12, 18, 29, 0) 62%),
+      radial-gradient(circle at 50% 50%, rgba(20, 30, 44, 0.08) 1px, transparent 1px);
+  }
+
+  .planetGlow {
+    background: radial-gradient(circle, rgba(132, 168, 255, 0.24), rgba(120, 90, 220, 0.06) 58%, transparent 72%);
+  }
+
+  .planetShell {
+    background:
+      linear-gradient(140deg, rgba(255, 255, 255, 0.86), rgba(246, 251, 255, 0.7) 45%, rgba(217, 238, 255, 0.74)),
+      radial-gradient(circle at 6% 10%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.34) 38%, transparent 60%);
+    border-color: rgba(26, 34, 52, 0.18);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.86),
+      inset 0 -20px 52px rgba(58, 82, 132, 0.16),
+      inset 0 0 36px rgba(126, 199, 255, 0.2),
+      0 20px 44px rgba(44, 55, 85, 0.2);
+  }
+
+  .planetAtmosphere {
+    box-shadow:
+      inset 0 0 0 1px rgba(115, 132, 196, 0.22),
+      0 0 22px rgba(95, 120, 208, 0.2);
+  }
+
+  .planetTerminator {
+    background: linear-gradient(112deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.12) 68%, rgba(0, 0, 0, 0.2));
+  }
+
+  .skillNode {
+    border-color: rgba(30, 38, 58, 0.16);
+    background: rgba(255, 255, 255, 0.82);
+    color: rgba(18, 22, 34, 0.92);
+    box-shadow: 0 8px 18px rgba(34, 44, 71, 0.2);
+
+    &:focus-visible,
+    &:hover {
+      border-color: rgba(30, 38, 58, 0.26);
+      box-shadow: 0 10px 22px rgba(34, 44, 71, 0.24);
+    }
+  }
+
+  .nodeBlue,
+  .nodeViolet,
+  .nodeGreen,
+  .nodeOrange,
+  .nodeCyan,
+  .nodePink {
+    box-shadow: 0 0 0 1px rgba(114, 132, 184, 0.24), 0 10px 22px rgba(34, 44, 71, 0.2);
+  }
+}

@@ -2,7 +2,7 @@
 
 .section {
   padding: 34px 0;
-  scroll-margin-top: 60px; // tune to your header height
+  scroll-margin-top: $nav-scroll-margin;
 
   @media (max-width: $bp-mobile) {
     padding: 8px 0;

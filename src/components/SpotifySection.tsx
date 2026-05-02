@@ -87,14 +87,32 @@ export default function SpotifySection() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressRafRef = useRef<number | null>(null);
   const lingerTimerRef = useRef<number | null>(null);
+  const retryTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
+    const scheduleRetry = (delayMs: number) => {
+      if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
+      retryTimerRef.current = window.setTimeout(() => {
+        if (!cancelled) load();
+      }, delayMs);
+    };
 
     const load = async () => {
       try {
         const res = await fetch("/api/spotify");
-        if (!res.ok || cancelled) return;
+        if (cancelled) return;
+
+        if (res.status === 429) {
+          // Back off; keep whatever stale data is already shown.
+          const retryAfter = Number(res.headers.get("Retry-After") ?? "60");
+          scheduleRetry(retryAfter * 1000);
+          return;
+        }
+
+        if (!res.ok) return;
         const json = await res.json() as SpotifyData;
         setData(json);
       } catch {
@@ -103,10 +121,11 @@ export default function SpotifySection() {
     };
 
     load();
-    const id = setInterval(load, POLL_INTERVAL);
+    intervalId = setInterval(load, POLL_INTERVAL);
     return () => {
       cancelled = true;
-      clearInterval(id);
+      if (intervalId !== null) clearInterval(intervalId);
+      if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
     };
   }, []);
 
