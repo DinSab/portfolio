@@ -126,8 +126,8 @@ export default function SkillsPlanet({
       currentRotationRef.current.x += (targetRotationRef.current.x - currentRotationRef.current.x) * 0.18;
       currentRotationRef.current.y += (targetRotationRef.current.y - currentRotationRef.current.y) * 0.18;
 
-      const sphereRadius = isCompact ? 118 : 176;
-      const perspective = isCompact ? 360 : 520;
+      const sphereRadius = isCompact ? 102 : 176;
+      const perspective = isCompact ? 332 : 520;
 
       for (let index = 0; index < nodes.length; index += 1) {
         const point = points[index];

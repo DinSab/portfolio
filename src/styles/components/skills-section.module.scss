@@ -174,12 +174,21 @@
   }
 
   .planetScene {
-    height: 360px;
+    width: min(100%, 340px);
+    height: 340px;
+    overflow: visible;
   }
 
   .skillNode {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 10px;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+
+  .skillNodeText {
+    font-size: 10px;
   }
 }
 
